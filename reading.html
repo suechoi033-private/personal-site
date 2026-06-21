@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ▼ 바꿀 곳: 브라우저 탭 제목 -->
+  <title>독서 큐레이션 · AI 결과물</title>
+
+  <!-- ▼ 바꿀 곳: 검색엔진/공유용 한 줄 설명 -->
+  <meta name="description" content="고전과 인간 이해를 리더십·경영으로 번역하는 독서 큐레이션. 처방형 서평과 북클럽." />
+
+  <style>
+    /* ============================================================
+       색 팔레트 (무채색 + 세이지 그린 포인트 하나)
+       값만 바꾸면 전체 톤이 함께 바뀝니다.
+       ============================================================ */
+    :root {
+      --bg:        #f4f4f2;  /* 페이지 배경 (라이트그레이) */
+      --tile:      #ffffff;  /* 화이트 타일 */
+      --tile-alt:  #ececea;  /* 그레이 타일 */
+      --ink:       #2b2b29;  /* 본문 텍스트 */
+      --ink-soft:  #6f6f6a;  /* 보조 텍스트 */
+      --line:      #e2e2df;  /* 테두리 */
+      --sage:      #8a9a82;  /* 세이지 그린 포인트 */
+      --sage-deep: #6f7f68;  /* 세이지 진한 톤 (호버 등) */
+      --radius:    18px;
+      --gap:       16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Apple SD Gothic Neo", "Noto Sans KR", Roboto,
+                   "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding: 40px 20px 64px;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       벤토 그리드 — 6열 기반, 타일이 칸을 나눠 가집니다.
+       ============================================================ */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--gap);
+    }
+
+    .tile {
+      background: var(--tile);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .tile.alt { background: var(--tile-alt); }
+
+    /* 칸 너비 지정 */
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .span-3 { grid-column: span 3; }
+    .span-2 { grid-column: span 2; }
+
+    /* 섹션 구분용 작은 라벨 */
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    /* ---------- ① HERO ---------- */
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+    .hero h1 .accent { color: var(--sage-deep); }
+    .hero p {
+      margin-top: 14px;
+      color: var(--ink-soft);
+      font-size: 16px;
+      max-width: 46ch;
+    }
+
+    /* 소개 타일 */
+    .about p {
+      color: var(--ink-soft);
+      font-size: 15px;
+    }
+    .about h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    /* 작은 지표 타일 */
+    .metric { justify-content: center; align-items: flex-start; }
+    .metric .num {
+      font-size: clamp(30px, 5vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--sage-deep);
+      line-height: 1;
+    }
+    .metric .label {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    .section-head {
+      margin: 40px 4px 18px;
+    }
+    .section-head h2 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .section-head span {
+      display: block;
+      margin-top: 4px;
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- ② 처방형 추천 카드 ---------- */
+    .rx-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap);
+    }
+    .rx {
+      padding: 22px;
+      justify-content: flex-start;
+    }
+    .rx:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    }
+    .rx .symptom {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin-bottom: 12px;
+    }
+    .rx .symptom b { color: var(--sage-deep); font-weight: 600; }
+    .rx h3 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .rx .author {
+      font-size: 12px;
+      color: var(--ink-soft);
+      margin-top: 2px;
+      margin-bottom: 10px;
+    }
+    .rx p {
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- ③ 독서 테마 칩 ---------- */
+    .themes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .themes span {
+      background: var(--tile);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    /* ---------- ④ 뉴스레터 구독 ---------- */
+    .cta { background: var(--sage); color: #fff; border-color: var(--sage); }
+    .cta .eyebrow { color: rgba(255,255,255,.8); }
+    .cta h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .cta p { font-size: 15px; color: rgba(255,255,255,.9); max-width: 52ch; }
+    .subscribe {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .subscribe input {
+      flex: 1 1 220px;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .subscribe button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+      transition: background .18s ease;
+    }
+    .subscribe button:hover { background: #000; }
+
+    /* ---------- ⑤ 연락처 / SNS ---------- */
+    .contact h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .contact p { color: var(--ink-soft); font-size: 15px; }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .links a {
+      text-decoration: none;
+      color: var(--ink);
+      background: var(--tile);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-size: 14px;
+      transition: border-color .18s ease, color .18s ease;
+    }
+    .links a:hover {
+      border-color: var(--sage);
+      color: var(--sage-deep);
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- 반응형 ---------- */
+    @media (max-width: 720px) {
+      .span-4, .span-3, .span-2 { grid-column: span 6; }
+      .rx-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 440px) {
+      .rx-grid { grid-template-columns: 1fr; }
+    }
+    /* 홈으로 돌아가기 링크 */
+    .backlink {
+      display: inline-block;
+      margin-bottom: 22px;
+      font-size: 14px;
+      color: var(--ink-soft);
+      text-decoration: none;
+    }
+    .backlink:hover { color: var(--sage-deep); }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+
+    <!-- 홈(개인 소개 페이지)으로 -->
+    <a class="backlink" href="index.html">← 홈으로</a>
+
+    <!-- ============================================================
+         ① 상단 HERO + 소개 + 지표 2개
+         ============================================================ -->
+    <section class="bento" aria-label="소개">
+
+      <!-- HERO (한 줄 소개) -->
+      <div class="tile span-4 hero">
+        <p class="eyebrow">Reading</p>
+        <!-- ▼ 바꿀 곳: 이름과 한 줄 소개 -->
+        <h1>고전을 <span class="accent">리더십</span>으로<br />
+            옮겨 읽습니다.</h1>
+        <!-- ▼ 바꿀 곳: 본인을 설명하는 한 문장 -->
+        <p>1984부터 몰입의 경영까지 — 인간을 이해하는 책을 읽고,
+           일과 조직에 쓸 수 있는 한 줄로 옮겨 나눕니다.</p>
+      </div>
+
+      <!-- 소개 타일 -->
+      <!-- ▼ 바꿀 곳: 본인 소개로 교체하세요. -->
+      <div class="tile alt span-2 about">
+        <p class="eyebrow">About</p>
+        <h2>읽고, 옮기는 사람</h2>
+        <p>매주 한 권을 "이런 상황엔 이 책"이라는 처방으로 정리합니다.
+           리더와 팀을 위한 독서 큐레이션.</p>
+      </div>
+
+      <!-- 지표 타일 2개 -->
+      <!-- ▼ 바꿀 곳: 숫자와 라벨 -->
+      <div class="tile span-3 metric">
+        <span class="num">100+</span>
+        <span class="label">읽고 기록한 책</span>
+      </div>
+      <div class="tile alt span-3 metric">
+        <span class="num">매주</span>
+        <span class="label">한 편의 처방형 서평</span>
+      </div>
+
+    </section>
+
+    <!-- ============================================================
+         ② 처방형 추천 — "이런 상황엔 이 책"
+         ============================================================ -->
+    <div class="section-head">
+      <h2>이런 상황엔, 이 책</h2>
+      <span>증상 → 책 → 한 줄 이유. 제가 추천하는 방식입니다.</span>
+    </div>
+
+    <section class="rx-grid" aria-label="처방형 추천">
+
+      <!-- ▼ 바꿀 곳: 아래 카드의 증상 / 책 / 이유를 자유롭게 교체하세요. -->
+
+      <div class="tile rx">
+        <p class="symptom"><b>증상</b> · 팀이 단기 성과에만 매달릴 때</p>
+        <h3>인피니트 게임</h3>
+        <p class="author">사이먼 시넥</p>
+        <p>이기는 게임이 아니라 계속하는 게임으로 시야를 바꿔준다.</p>
+      </div>
+
+      <div class="tile rx alt">
+        <p class="symptom"><b>증상</b> · 조직이 같은 실수를 반복할 때</p>
+        <h3>학습하는 조직</h3>
+        <p class="author">피터 센게</p>
+        <p>개인의 잘못이 아니라 '시스템'을 보게 만드는 고전.</p>
+      </div>
+
+      <div class="tile rx">
+        <p class="symptom"><b>증상</b> · 일의 의미를 잃은 동료에게</p>
+        <h3>죽음의 수용소에서</h3>
+        <p class="author">빅터 프랭클</p>
+        <p>왜 살아야 하는지 아는 사람은 어떻게든 견뎌낸다.</p>
+      </div>
+
+      <div class="tile rx alt">
+        <p class="symptom"><b>증상</b> · 권력과 진실이 헷갈릴 때</p>
+        <h3>1984</h3>
+        <p class="author">조지 오웰</p>
+        <p>언어가 무너지면 생각이 무너진다는 것을 보여준다.</p>
+      </div>
+
+      <div class="tile rx">
+        <p class="symptom"><b>증상</b> · 집중이 흩어지고 성과가 얕을 때</p>
+        <h3>몰입의 경영</h3>
+        <p class="author">미하이 칙센트미하이</p>
+        <p>몰입은 의지가 아니라 설계의 문제임을 알려준다.</p>
+      </div>
+
+      <div class="tile rx alt">
+        <p class="symptom"><b>증상</b> · 글이 길기만 하고 안 읽힐 때</p>
+        <h3>On Writing Well</h3>
+        <p class="author">윌리엄 진서</p>
+        <p>잘 쓰는 일은 결국 잘 덜어내는 일이라는 원칙.</p>
+      </div>
+
+    </section>
+
+    <!-- ============================================================
+         ③ 읽는 결, 독서 테마
+         ============================================================ -->
+    <div class="section-head">
+      <h2>주로 읽는 결</h2>
+      <span>이 네 갈래가 서로 연결될 때 한 권이 자산이 됩니다.</span>
+    </div>
+
+    <section class="bento" aria-label="독서 테마">
+      <div class="tile span-6">
+        <div class="themes">
+          <!-- ▼ 바꿀 곳: 관심 테마를 자유롭게 추가/삭제하세요. -->
+          <span>리더십 · 조직</span>
+          <span>고전 · 인간</span>
+          <span>철학 · 일의 의미</span>
+          <span>읽기와 쓰기</span>
+          <span>경영 · 성장</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ④ 뉴스레터 구독 (비즈니스의 출발점)
+         ============================================================ -->
+    <div class="section-head">
+      <h2>매주 한 권, 받아보기</h2>
+      <span>읽고 옮긴 한 편을 메일로 보냅니다. 광고 없이, 한 통씩.</span>
+    </div>
+
+    <section class="bento" aria-label="뉴스레터">
+      <div class="tile span-6 cta">
+        <p class="eyebrow">Newsletter</p>
+        <h2>리더를 위한 독서 한 줄</h2>
+        <p>이번 주에 읽은 책 한 권을 "이런 상황엔 이 책"으로 정리해
+           매주 한 통 보내드립니다.</p>
+        <!-- ▼ 바꿀 곳: action 을 실제 구독 서비스(스티비/메일침프/구글폼) 주소로 교체하세요. -->
+        <form class="subscribe" action="#" method="post"
+              onsubmit="alert('구독 서비스 주소를 연결해 주세요 (action 속성).'); return false;">
+          <input type="email" name="email" placeholder="이메일 주소" required />
+          <button type="submit">구독하기</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ⑤ 연락처 / SNS
+         ============================================================ -->
+    <div class="section-head">
+      <h2>함께하기</h2>
+      <span>북클럽, 강연, 기업 워크숍 문의 환영합니다.</span>
+    </div>
+
+    <section class="bento" aria-label="연락처">
+      <div class="tile span-6 contact">
+        <p class="eyebrow">Contact</p>
+        <h2>읽은 책을 함께 나눠요</h2>
+        <p>리더십×고전 북클럽, 큐레이션 강연, 협업 제안 모두 환영합니다.</p>
+
+        <!-- ▼ 바꿀 곳: 실제 이메일/SNS 주소로 교체하세요. -->
+        <div class="links">
+          <a href="mailto:hello@example.com">이메일</a>
+          <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://brunch.co.kr/" target="_blank" rel="noopener">브런치</a>
+          <a href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <!-- ▼ 바꿀 곳: 하단 문구 / 연도 -->
+      <p>© 2026 읽고, 옮기는 사람. 매주 한 권씩 천천히.</p>
+    </footer>
+
+  </main>
+</body>
+</html>
