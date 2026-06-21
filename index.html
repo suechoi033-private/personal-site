@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- ▼ 바꿀 곳: 브라우저 탭 제목 -->
-  <title>이름 · 개인 홈페이지</title>
+  <title>읽고, 옮기는 사람 · 독서 큐레이션</title>
 
   <!-- ▼ 바꿀 곳: 검색엔진/공유용 한 줄 설명 -->
-  <meta name="description" content="조용하고 단정한 개인 소개 페이지" />
+  <meta name="description" content="고전과 인간 이해를 리더십·경영으로 번역하는 독서 큐레이션. 처방형 서평과 북클럽." />
 
   <style>
     /* ============================================================
@@ -101,7 +101,7 @@
       max-width: 46ch;
     }
 
-    /* 잇다 소개 타일 */
+    /* 소개 타일 */
     .about p {
       color: var(--ink-soft);
       font-size: 15px;
@@ -127,39 +127,6 @@
       color: var(--ink-soft);
     }
 
-    /* ---------- ② AI 결과물 6개 (전부 같은 크기) ---------- */
-    .work-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--gap);
-    }
-    .work {
-      aspect-ratio: 1 / 1;
-      padding: 22px;
-      justify-content: space-between;
-    }
-    .work:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 24px rgba(0,0,0,.06);
-    }
-    .work .tag {
-      font-size: 11px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--sage-deep);
-      font-weight: 600;
-    }
-    .work h3 {
-      font-size: 17px;
-      font-weight: 700;
-      margin-top: auto;
-    }
-    .work p {
-      font-size: 13px;
-      color: var(--ink-soft);
-      margin-top: 6px;
-    }
-
     .section-head {
       margin: 40px 4px 18px;
     }
@@ -174,7 +141,90 @@
       color: var(--ink-soft);
     }
 
-    /* ---------- ③ 연락처 / SNS ---------- */
+    /* ---------- ② 처방형 추천 카드 ---------- */
+    .rx-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap);
+    }
+    .rx {
+      padding: 22px;
+      justify-content: flex-start;
+    }
+    .rx:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    }
+    .rx .symptom {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin-bottom: 12px;
+    }
+    .rx .symptom b { color: var(--sage-deep); font-weight: 600; }
+    .rx h3 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .rx .author {
+      font-size: 12px;
+      color: var(--ink-soft);
+      margin-top: 2px;
+      margin-bottom: 10px;
+    }
+    .rx p {
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- ③ 독서 테마 칩 ---------- */
+    .themes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .themes span {
+      background: var(--tile);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    /* ---------- ④ 뉴스레터 구독 ---------- */
+    .cta { background: var(--sage); color: #fff; border-color: var(--sage); }
+    .cta .eyebrow { color: rgba(255,255,255,.8); }
+    .cta h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .cta p { font-size: 15px; color: rgba(255,255,255,.9); max-width: 52ch; }
+    .subscribe {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .subscribe input {
+      flex: 1 1 220px;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .subscribe button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+      transition: background .18s ease;
+    }
+    .subscribe button:hover { background: #000; }
+
+    /* ---------- ⑤ 연락처 / SNS ---------- */
     .contact h2 {
       font-size: 22px;
       font-weight: 700;
@@ -212,11 +262,10 @@
     /* ---------- 반응형 ---------- */
     @media (max-width: 720px) {
       .span-4, .span-3, .span-2 { grid-column: span 6; }
-      .work-grid { grid-template-columns: repeat(2, 1fr); }
+      .rx-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 440px) {
-      .work-grid { grid-template-columns: 1fr; }
-      .work { aspect-ratio: auto; }
+      .rx-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -225,115 +274,162 @@
   <main class="wrap">
 
     <!-- ============================================================
-         ① 상단 HERO + 잇다 소개 + 지표 2개
+         ① 상단 HERO + 소개 + 지표 2개
          ============================================================ -->
     <section class="bento" aria-label="소개">
 
       <!-- HERO (한 줄 소개) -->
       <div class="tile span-4 hero">
-        <p class="eyebrow">Hello</p>
+        <p class="eyebrow">Reading</p>
         <!-- ▼ 바꿀 곳: 이름과 한 줄 소개 -->
-        <h1>안녕하세요, <span class="accent">이름</span>입니다.<br />
-            조용히, 단정하게 만드는 사람.</h1>
+        <h1>고전을 <span class="accent">리더십</span>으로<br />
+            옮겨 읽습니다.</h1>
         <!-- ▼ 바꿀 곳: 본인을 설명하는 한 문장 -->
-        <p>AI 도구로 아이디어를 빠르게 형태로 옮기고, 결과를 차분히 다듬습니다.</p>
+        <p>1984부터 몰입의 경영까지 — 인간을 이해하는 책을 읽고,
+           일과 조직에 쓸 수 있는 한 줄로 옮겨 나눕니다.</p>
       </div>
 
-      <!-- 잇다 소개 타일 -->
-      <!-- ▼ 바꿀 곳: '잇다'에 대한 소개. 직접 활동/소속 설명으로 교체하세요. -->
+      <!-- 소개 타일 -->
+      <!-- ▼ 바꿀 곳: 본인 소개로 교체하세요. -->
       <div class="tile alt span-2 about">
         <p class="eyebrow">About</p>
-        <h2>잇다</h2>
-        <p>사람과 일을 잇는 작은 시도들. 여기에 한두 문장으로 소개를 적어주세요.</p>
+        <h2>읽고, 옮기는 사람</h2>
+        <p>매주 한 권을 "이런 상황엔 이 책"이라는 처방으로 정리합니다.
+           리더와 팀을 위한 독서 큐레이션.</p>
       </div>
 
       <!-- 지표 타일 2개 -->
-      <!-- ▼ 바꿀 곳: 숫자와 라벨 (예: 프로젝트 수, 활동 연차 등) -->
+      <!-- ▼ 바꿀 곳: 숫자와 라벨 -->
       <div class="tile span-3 metric">
-        <span class="num">12+</span>
-        <span class="label">진행한 프로젝트</span>
+        <span class="num">100+</span>
+        <span class="label">읽고 기록한 책</span>
       </div>
       <div class="tile alt span-3 metric">
-        <span class="num">3년</span>
-        <span class="label">함께한 시간</span>
+        <span class="num">매주</span>
+        <span class="label">한 편의 처방형 서평</span>
       </div>
 
     </section>
 
     <!-- ============================================================
-         ② AI 결과물 6개 (전부 같은 크기, 그레이/화이트 반복)
+         ② 처방형 추천 — "이런 상황엔 이 책"
          ============================================================ -->
     <div class="section-head">
-      <h2>AI 결과물</h2>
-      <!-- ▼ 바꿀 곳: 섹션 부제 -->
-      <span>AI 도구로 만든 작업들을 모았습니다.</span>
+      <h2>이런 상황엔, 이 책</h2>
+      <span>증상 → 책 → 한 줄 이유. 제가 추천하는 방식입니다.</span>
     </div>
 
-    <section class="work-grid" aria-label="AI 결과물">
+    <section class="rx-grid" aria-label="처방형 추천">
 
-      <!-- ▼ 바꿀 곳: 아래 6개 카드의 tag / 제목 / 설명을 교체하세요.
-           링크를 걸려면 <div class="tile work"> 를 <a href="..."> 로 바꾸면 됩니다.
-           그레이(alt)/화이트가 번갈아 들어가도록 순서를 유지하세요. -->
+      <!-- ▼ 바꿀 곳: 아래 카드의 증상 / 책 / 이유를 자유롭게 교체하세요. -->
 
-      <div class="tile work">
-        <span class="tag">Writing</span>
-        <h3>작업 제목 01</h3>
-        <p>한 줄 설명을 적어주세요.</p>
+      <div class="tile rx">
+        <p class="symptom"><b>증상</b> · 팀이 단기 성과에만 매달릴 때</p>
+        <h3>인피니트 게임</h3>
+        <p class="author">사이먼 시넥</p>
+        <p>이기는 게임이 아니라 계속하는 게임으로 시야를 바꿔준다.</p>
       </div>
 
-      <div class="tile work alt">
-        <span class="tag">Image</span>
-        <h3>작업 제목 02</h3>
-        <p>한 줄 설명을 적어주세요.</p>
+      <div class="tile rx alt">
+        <p class="symptom"><b>증상</b> · 조직이 같은 실수를 반복할 때</p>
+        <h3>학습하는 조직</h3>
+        <p class="author">피터 센게</p>
+        <p>개인의 잘못이 아니라 '시스템'을 보게 만드는 고전.</p>
       </div>
 
-      <div class="tile work">
-        <span class="tag">Code</span>
-        <h3>작업 제목 03</h3>
-        <p>한 줄 설명을 적어주세요.</p>
+      <div class="tile rx">
+        <p class="symptom"><b>증상</b> · 일의 의미를 잃은 동료에게</p>
+        <h3>죽음의 수용소에서</h3>
+        <p class="author">빅터 프랭클</p>
+        <p>왜 살아야 하는지 아는 사람은 어떻게든 견뎌낸다.</p>
       </div>
 
-      <div class="tile work alt">
-        <span class="tag">Design</span>
-        <h3>작업 제목 04</h3>
-        <p>한 줄 설명을 적어주세요.</p>
+      <div class="tile rx alt">
+        <p class="symptom"><b>증상</b> · 권력과 진실이 헷갈릴 때</p>
+        <h3>1984</h3>
+        <p class="author">조지 오웰</p>
+        <p>언어가 무너지면 생각이 무너진다는 것을 보여준다.</p>
       </div>
 
-      <div class="tile work">
-        <span class="tag">Audio</span>
-        <h3>작업 제목 05</h3>
-        <p>한 줄 설명을 적어주세요.</p>
+      <div class="tile rx">
+        <p class="symptom"><b>증상</b> · 집중이 흩어지고 성과가 얕을 때</p>
+        <h3>몰입의 경영</h3>
+        <p class="author">미하이 칙센트미하이</p>
+        <p>몰입은 의지가 아니라 설계의 문제임을 알려준다.</p>
       </div>
 
-      <div class="tile work alt">
-        <span class="tag">Etc</span>
-        <h3>작업 제목 06</h3>
-        <p>한 줄 설명을 적어주세요.</p>
+      <div class="tile rx alt">
+        <p class="symptom"><b>증상</b> · 글이 길기만 하고 안 읽힐 때</p>
+        <h3>On Writing Well</h3>
+        <p class="author">윌리엄 진서</p>
+        <p>잘 쓰는 일은 결국 잘 덜어내는 일이라는 원칙.</p>
       </div>
 
     </section>
 
     <!-- ============================================================
-         ③ 연락처 / SNS
+         ③ 읽는 결, 독서 테마
          ============================================================ -->
     <div class="section-head">
-      <h2>연락처</h2>
-      <span>편하게 연락 주세요.</span>
+      <h2>주로 읽는 결</h2>
+      <span>이 네 갈래가 서로 연결될 때 한 권이 자산이 됩니다.</span>
+    </div>
+
+    <section class="bento" aria-label="독서 테마">
+      <div class="tile span-6">
+        <div class="themes">
+          <!-- ▼ 바꿀 곳: 관심 테마를 자유롭게 추가/삭제하세요. -->
+          <span>리더십 · 조직</span>
+          <span>고전 · 인간</span>
+          <span>철학 · 일의 의미</span>
+          <span>읽기와 쓰기</span>
+          <span>경영 · 성장</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ④ 뉴스레터 구독 (비즈니스의 출발점)
+         ============================================================ -->
+    <div class="section-head">
+      <h2>매주 한 권, 받아보기</h2>
+      <span>읽고 옮긴 한 편을 메일로 보냅니다. 광고 없이, 한 통씩.</span>
+    </div>
+
+    <section class="bento" aria-label="뉴스레터">
+      <div class="tile span-6 cta">
+        <p class="eyebrow">Newsletter</p>
+        <h2>리더를 위한 독서 한 줄</h2>
+        <p>이번 주에 읽은 책 한 권을 "이런 상황엔 이 책"으로 정리해
+           매주 한 통 보내드립니다.</p>
+        <!-- ▼ 바꿀 곳: action 을 실제 구독 서비스(스티비/메일침프/구글폼) 주소로 교체하세요. -->
+        <form class="subscribe" action="#" method="post"
+              onsubmit="alert('구독 서비스 주소를 연결해 주세요 (action 속성).'); return false;">
+          <input type="email" name="email" placeholder="이메일 주소" required />
+          <button type="submit">구독하기</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ⑤ 연락처 / SNS
+         ============================================================ -->
+    <div class="section-head">
+      <h2>함께하기</h2>
+      <span>북클럽, 강연, 기업 워크숍 문의 환영합니다.</span>
     </div>
 
     <section class="bento" aria-label="연락처">
       <div class="tile span-6 contact">
         <p class="eyebrow">Contact</p>
-        <!-- ▼ 바꿀 곳: 연락 안내 문구 -->
-        <h2>함께 이야기 나눠요</h2>
-        <p>제안, 협업, 혹은 그냥 안부 인사도 환영합니다.</p>
+        <h2>읽은 책을 함께 나눠요</h2>
+        <p>리더십×고전 북클럽, 큐레이션 강연, 협업 제안 모두 환영합니다.</p>
 
-        <!-- ▼ 바꿀 곳: 실제 이메일/SNS 주소로 교체하세요.
-             사용하지 않는 항목은 줄째로 삭제하면 됩니다. -->
+        <!-- ▼ 바꿀 곳: 실제 이메일/SNS 주소로 교체하세요. -->
         <div class="links">
           <a href="mailto:hello@example.com">이메일</a>
-          <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
           <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://brunch.co.kr/" target="_blank" rel="noopener">브런치</a>
           <a href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
       </div>
@@ -341,7 +437,7 @@
 
     <footer>
       <!-- ▼ 바꿀 곳: 하단 문구 / 연도 -->
-      <p>© 2026 이름. 조용히 만들어 갑니다.</p>
+      <p>© 2026 읽고, 옮기는 사람. 매주 한 권씩 천천히.</p>
     </footer>
 
   </main>
