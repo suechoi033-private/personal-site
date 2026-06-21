@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ▼ 바꿀 곳: 브라우저 탭 제목 -->
+  <title>이름 · 개인 홈페이지</title>
+
+  <!-- ▼ 바꿀 곳: 검색엔진/공유용 한 줄 설명 -->
+  <meta name="description" content="조용하고 단정한 개인 소개 페이지" />
+
+  <style>
+    /* ============================================================
+       색 팔레트 (무채색 + 세이지 그린 포인트 하나)
+       값만 바꾸면 전체 톤이 함께 바뀝니다.
+       ============================================================ */
+    :root {
+      --bg:        #f4f4f2;  /* 페이지 배경 (라이트그레이) */
+      --tile:      #ffffff;  /* 화이트 타일 */
+      --tile-alt:  #ececea;  /* 그레이 타일 */
+      --ink:       #2b2b29;  /* 본문 텍스트 */
+      --ink-soft:  #6f6f6a;  /* 보조 텍스트 */
+      --line:      #e2e2df;  /* 테두리 */
+      --sage:      #8a9a82;  /* 세이지 그린 포인트 */
+      --sage-deep: #6f7f68;  /* 세이지 진한 톤 (호버 등) */
+      --radius:    18px;
+      --gap:       16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Apple SD Gothic Neo", "Noto Sans KR", Roboto,
+                   "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding: 40px 20px 64px;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       벤토 그리드 — 6열 기반, 타일이 칸을 나눠 가집니다.
+       ============================================================ */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--gap);
+    }
+
+    .tile {
+      background: var(--tile);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .tile.alt { background: var(--tile-alt); }
+
+    /* 칸 너비 지정 */
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .span-3 { grid-column: span 3; }
+    .span-2 { grid-column: span 2; }
+
+    /* 섹션 구분용 작은 라벨 */
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    /* ---------- ① HERO ---------- */
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+    .hero h1 .accent { color: var(--sage-deep); }
+    .hero p {
+      margin-top: 14px;
+      color: var(--ink-soft);
+      font-size: 16px;
+      max-width: 46ch;
+    }
+
+    /* 잇다 소개 타일 */
+    .about p {
+      color: var(--ink-soft);
+      font-size: 15px;
+    }
+    .about h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    /* 작은 지표 타일 */
+    .metric { justify-content: center; align-items: flex-start; }
+    .metric .num {
+      font-size: clamp(30px, 5vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--sage-deep);
+      line-height: 1;
+    }
+    .metric .label {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- ② AI 결과물 6개 (전부 같은 크기) ---------- */
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap);
+    }
+    .work {
+      aspect-ratio: 1 / 1;
+      padding: 22px;
+      justify-content: space-between;
+    }
+    .work:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    }
+    .work .tag {
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      font-weight: 600;
+    }
+    .work h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-top: auto;
+    }
+    .work p {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin-top: 6px;
+    }
+
+    .section-head {
+      margin: 40px 4px 18px;
+    }
+    .section-head h2 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .section-head span {
+      display: block;
+      margin-top: 4px;
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- ③ 연락처 / SNS ---------- */
+    .contact h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .contact p { color: var(--ink-soft); font-size: 15px; }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .links a {
+      text-decoration: none;
+      color: var(--ink);
+      background: var(--tile);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-size: 14px;
+      transition: border-color .18s ease, color .18s ease;
+    }
+    .links a:hover {
+      border-color: var(--sage);
+      color: var(--sage-deep);
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- 반응형 ---------- */
+    @media (max-width: 720px) {
+      .span-4, .span-3, .span-2 { grid-column: span 6; }
+      .work-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 440px) {
+      .work-grid { grid-template-columns: 1fr; }
+      .work { aspect-ratio: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+
+    <!-- ============================================================
+         ① 상단 HERO + 잇다 소개 + 지표 2개
+         ============================================================ -->
+    <section class="bento" aria-label="소개">
+
+      <!-- HERO (한 줄 소개) -->
+      <div class="tile span-4 hero">
+        <p class="eyebrow">Hello</p>
+        <!-- ▼ 바꿀 곳: 이름과 한 줄 소개 -->
+        <h1>안녕하세요, <span class="accent">이름</span>입니다.<br />
+            조용히, 단정하게 만드는 사람.</h1>
+        <!-- ▼ 바꿀 곳: 본인을 설명하는 한 문장 -->
+        <p>AI 도구로 아이디어를 빠르게 형태로 옮기고, 결과를 차분히 다듬습니다.</p>
+      </div>
+
+      <!-- 잇다 소개 타일 -->
+      <!-- ▼ 바꿀 곳: '잇다'에 대한 소개. 직접 활동/소속 설명으로 교체하세요. -->
+      <div class="tile alt span-2 about">
+        <p class="eyebrow">About</p>
+        <h2>잇다</h2>
+        <p>사람과 일을 잇는 작은 시도들. 여기에 한두 문장으로 소개를 적어주세요.</p>
+      </div>
+
+      <!-- 지표 타일 2개 -->
+      <!-- ▼ 바꿀 곳: 숫자와 라벨 (예: 프로젝트 수, 활동 연차 등) -->
+      <div class="tile span-3 metric">
+        <span class="num">12+</span>
+        <span class="label">진행한 프로젝트</span>
+      </div>
+      <div class="tile alt span-3 metric">
+        <span class="num">3년</span>
+        <span class="label">함께한 시간</span>
+      </div>
+
+    </section>
+
+    <!-- ============================================================
+         ② AI 결과물 6개 (전부 같은 크기, 그레이/화이트 반복)
+         ============================================================ -->
+    <div class="section-head">
+      <h2>AI 결과물</h2>
+      <!-- ▼ 바꿀 곳: 섹션 부제 -->
+      <span>AI 도구로 만든 작업들을 모았습니다.</span>
+    </div>
+
+    <section class="work-grid" aria-label="AI 결과물">
+
+      <!-- ▼ 바꿀 곳: 아래 6개 카드의 tag / 제목 / 설명을 교체하세요.
+           링크를 걸려면 <div class="tile work"> 를 <a href="..."> 로 바꾸면 됩니다.
+           그레이(alt)/화이트가 번갈아 들어가도록 순서를 유지하세요. -->
+
+      <div class="tile work">
+        <span class="tag">Writing</span>
+        <h3>작업 제목 01</h3>
+        <p>한 줄 설명을 적어주세요.</p>
+      </div>
+
+      <div class="tile work alt">
+        <span class="tag">Image</span>
+        <h3>작업 제목 02</h3>
+        <p>한 줄 설명을 적어주세요.</p>
+      </div>
+
+      <div class="tile work">
+        <span class="tag">Code</span>
+        <h3>작업 제목 03</h3>
+        <p>한 줄 설명을 적어주세요.</p>
+      </div>
+
+      <div class="tile work alt">
+        <span class="tag">Design</span>
+        <h3>작업 제목 04</h3>
+        <p>한 줄 설명을 적어주세요.</p>
+      </div>
+
+      <div class="tile work">
+        <span class="tag">Audio</span>
+        <h3>작업 제목 05</h3>
+        <p>한 줄 설명을 적어주세요.</p>
+      </div>
+
+      <div class="tile work alt">
+        <span class="tag">Etc</span>
+        <h3>작업 제목 06</h3>
+        <p>한 줄 설명을 적어주세요.</p>
+      </div>
+
+    </section>
+
+    <!-- ============================================================
+         ③ 연락처 / SNS
+         ============================================================ -->
+    <div class="section-head">
+      <h2>연락처</h2>
+      <span>편하게 연락 주세요.</span>
+    </div>
+
+    <section class="bento" aria-label="연락처">
+      <div class="tile span-6 contact">
+        <p class="eyebrow">Contact</p>
+        <!-- ▼ 바꿀 곳: 연락 안내 문구 -->
+        <h2>함께 이야기 나눠요</h2>
+        <p>제안, 협업, 혹은 그냥 안부 인사도 환영합니다.</p>
+
+        <!-- ▼ 바꿀 곳: 실제 이메일/SNS 주소로 교체하세요.
+             사용하지 않는 항목은 줄째로 삭제하면 됩니다. -->
+        <div class="links">
+          <a href="mailto:hello@example.com">이메일</a>
+          <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <!-- ▼ 바꿀 곳: 하단 문구 / 연도 -->
+      <p>© 2026 이름. 조용히 만들어 갑니다.</p>
+    </footer>
+
+  </main>
+</body>
+</html>
