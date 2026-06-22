@@ -4,34 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ▼ 바꿀 곳: 브라우저 탭 제목 -->
-  <title>독서 큐레이션 · AI 결과물</title>
-
-  <!-- ▼ 바꿀 곳: 검색엔진/공유용 한 줄 설명 -->
-  <meta name="description" content="고전과 인간 이해를 리더십·경영으로 번역하는 독서 큐레이션. 처방형 서평과 북클럽." />
+  <title>단청의 책장 · 상황별 독서 처방</title>
+  <meta name="description" content="이런 상황엔 이 책 — HR·리더십 실무자를 위한 상황별 독서 처방. 카테고리·상황별로 골라 보고, AI 요약과 단청의 추천사를 함께." />
 
   <style>
-    /* ============================================================
-       색 팔레트 (흰 배경 · 산뜻한 블루 · 모던 그레이 · 부드러운 분홍)
-       값만 바꾸면 전체 톤이 함께 바뀝니다.
-       ============================================================ */
     :root {
-      --bg:        #ffffff;  /* 흰색 배경 */
-      --tile:      #ffffff;  /* 화이트 타일 */
-      --tile-alt:  #eef1f6;  /* 모던 그레이 타일 */
-      --ink:       #1f2430;  /* 본문 텍스트 (딥 슬레이트) */
-      --ink-soft:  #6b7280;  /* 모던 그레이 보조 텍스트 */
-      --line:      #e6e9ef;  /* 테두리 (쿨 그레이) */
-      --sage:      #4c8dff;  /* 산뜻한 블루 포인트 */
-      --sage-deep: #2f6fe0;  /* 진한 블루 (호버 등) */
-      --pink:      #fbd3e1;  /* 부드러운 분홍 */
-      --pink-deep: #e98aa9;  /* 진한 분홍 (포인트) */
+      --bg:        #ffffff;
+      --tile:      #ffffff;
+      --tile-alt:  #eef1f6;
+      --ink:       #1f2430;
+      --ink-soft:  #6b7280;
+      --line:      #e6e9ef;
+      --sage:      #4c8dff;
+      --sage-deep: #2f6fe0;
+      --pink:      #fbd3e1;
+      --pink-deep: #e98aa9;
       --radius:    18px;
       --gap:       16px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -42,418 +34,611 @@
                    "Helvetica Neue", Arial, sans-serif;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      padding: 40px 20px 64px;
+      padding: 0 0 80px;
     }
 
-    .wrap {
-      max-width: 980px;
+    /* 모바일 앱 느낌의 좁은 캔버스 */
+    .app {
+      max-width: 560px;
       margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg);
+      box-shadow: 0 0 0 1px var(--line);
     }
 
-    /* ============================================================
-       벤토 그리드 — 6열 기반, 타일이 칸을 나눠 가집니다.
-       ============================================================ */
-    .bento {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: var(--gap);
-    }
-
-    .tile {
-      background: var(--tile);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 28px;
+    /* ---------- 상단 앱 바 ---------- */
+    .appbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 20px;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      transition: transform .18s ease, box-shadow .18s ease;
+      align-items: center;
+      justify-content: space-between;
     }
+    .appbar .title { font-size: 17px; font-weight: 700; }
+    .appbar .back {
+      font-size: 14px;
+      color: var(--ink-soft);
+      text-decoration: none;
+    }
+    .appbar .back:hover { color: var(--sage-deep); }
 
-    .tile.alt { background: var(--tile-alt); }
-    /* 부드러운 분홍 타일 (포인트로 한두 칸에만 사용) */
-    .tile.pink { background: var(--pink); border-color: #f6c2d4; }
-
-    /* 칸 너비 지정 */
-    .span-6 { grid-column: span 6; }
-    .span-4 { grid-column: span 4; }
-    .span-3 { grid-column: span 3; }
-    .span-2 { grid-column: span 2; }
-
-    /* 섹션 구분용 작은 라벨 */
-    .eyebrow {
+    /* ---------- 히어로 ---------- */
+    .hero {
+      padding: 26px 20px 18px;
+    }
+    .hero .eyebrow {
       font-size: 12px;
       letter-spacing: .14em;
       text-transform: uppercase;
       color: var(--sage-deep);
       font-weight: 600;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
-
-    /* ---------- ① HERO ---------- */
     .hero h1 {
-      font-size: clamp(28px, 4vw, 40px);
+      font-size: 24px;
       font-weight: 700;
+      line-height: 1.3;
       letter-spacing: -0.01em;
-      line-height: 1.25;
     }
     .hero h1 .accent { color: var(--sage-deep); }
     .hero p {
-      margin-top: 14px;
-      color: var(--ink-soft);
-      font-size: 16px;
-      max-width: 46ch;
-    }
-
-    /* 소개 타일 */
-    .about p {
-      color: var(--ink-soft);
-      font-size: 15px;
-    }
-    .about h2 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    /* 작은 지표 타일 */
-    .metric { justify-content: center; align-items: flex-start; }
-    .metric .num {
-      font-size: clamp(30px, 5vw, 42px);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--sage-deep);
-      line-height: 1;
-    }
-    .metric .label {
       margin-top: 10px;
-      font-size: 13px;
       color: var(--ink-soft);
-    }
-
-    .section-head {
-      margin: 40px 4px 18px;
-    }
-    .section-head h2 {
-      font-size: 20px;
-      font-weight: 700;
-    }
-    .section-head span {
-      display: block;
-      margin-top: 4px;
       font-size: 14px;
-      color: var(--ink-soft);
     }
 
-    /* ---------- ② 처방형 추천 카드 ---------- */
-    .rx-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--gap);
+    /* ---------- 상황 선택 (드롭다운) ---------- */
+    .picker {
+      padding: 6px 20px 18px;
     }
-    .rx {
-      padding: 22px;
-      justify-content: flex-start;
-    }
-    .rx:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 24px rgba(0,0,0,.06);
-    }
-    .rx .symptom {
+    .picker label {
+      display: block;
       font-size: 13px;
-      color: var(--ink-soft);
-      margin-bottom: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
     }
-    .rx .symptom b { color: var(--sage-deep); font-weight: 600; }
-    .rx h3 {
-      font-size: 17px;
-      font-weight: 700;
-    }
-    .rx .author {
-      font-size: 12px;
-      color: var(--ink-soft);
-      margin-top: 2px;
-      margin-bottom: 10px;
-    }
-    .rx p {
-      font-size: 13px;
-      color: var(--ink-soft);
-    }
-
-    /* ---------- ③ 독서 테마 칩 ---------- */
-    .themes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-    .themes span {
-      background: var(--tile);
+    .picker select {
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
       border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--tile-alt)
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%232f6fe0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")
+        no-repeat right 16px center;
+      padding: 14px 44px 14px 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .picker select:focus { outline: 2px solid var(--sage); outline-offset: 1px; }
+
+    /* ---------- 카테고리 칩 (가로 스크롤) ---------- */
+    .chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 20px 18px;
+      scrollbar-width: none;
+    }
+    .chips::-webkit-scrollbar { display: none; }
+    .chips button {
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      background: var(--tile);
+      color: var(--ink-soft);
       border-radius: 999px;
       padding: 8px 16px;
       font-size: 13px;
-      color: var(--ink);
-    }
-
-    /* ---------- ④ 뉴스레터 구독 ---------- */
-    .cta { background: var(--sage); color: #fff; border-color: var(--sage); }
-    .cta .eyebrow { color: rgba(255,255,255,.8); }
-    .cta h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-    .cta p { font-size: 15px; color: rgba(255,255,255,.9); max-width: 52ch; }
-    .subscribe {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .subscribe input {
-      flex: 1 1 220px;
-      border: none;
-      border-radius: 999px;
-      padding: 12px 18px;
-      font-size: 14px;
-      font-family: inherit;
-    }
-    .subscribe button {
-      border: none;
-      border-radius: 999px;
-      padding: 12px 24px;
-      font-size: 14px;
       font-weight: 600;
-      background: var(--ink);
-      color: #fff;
+      font-family: inherit;
       cursor: pointer;
-      transition: background .18s ease;
+      transition: all .16s ease;
+      white-space: nowrap;
     }
-    .subscribe button:hover { background: #000; }
+    .chips button:hover { border-color: var(--sage); color: var(--sage-deep); }
+    .chips button.active {
+      background: var(--sage);
+      border-color: var(--sage);
+      color: #fff;
+    }
 
-    /* ---------- ⑤ 연락처 / SNS ---------- */
-    .contact h2 {
+    /* ---------- 결과 개수 ---------- */
+    .result-count {
+      padding: 0 20px 10px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+    .result-count b { color: var(--sage-deep); }
+
+    /* ---------- 책 카드 목록 ---------- */
+    .books {
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .book {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: box-shadow .18s ease;
+    }
+    .book:hover { box-shadow: 0 8px 22px rgba(0,0,0,.07); }
+    .book summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .book summary::-webkit-details-marker { display: none; }
+    .book .cover {
+      flex: 0 0 48px;
+      width: 48px;
+      height: 64px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--sage), #9cc0ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 22px;
+      color: #fff;
+    }
+    .book.c-org .cover  { background: linear-gradient(135deg, #4c8dff, #9cc0ff); }
+    .book.c-self .cover { background: linear-gradient(135deg, #e98aa9, #fbd3e1); }
+    .book.c-classic .cover { background: linear-gradient(135deg, #6b7280, #aeb4bf); }
+    .book.c-write .cover { background: linear-gradient(135deg, #2f6fe0, #4c8dff); }
+    .book .head-main { flex: 1; min-width: 0; }
+    .book .cat-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--sage-deep);
+      background: #eaf0fb;
+      border-radius: 999px;
+      padding: 2px 9px;
+      margin-bottom: 6px;
+    }
+    .book h3 { font-size: 16px; font-weight: 700; line-height: 1.35; }
+    .book .author { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+    .book .situation {
+      font-size: 12.5px;
+      color: var(--ink);
+      margin-top: 8px;
+    }
+    .book .situation b { color: var(--sage-deep); font-weight: 600; }
+    .book .chev {
+      flex: 0 0 auto;
+      color: var(--ink-soft);
+      transition: transform .2s ease;
+      margin-top: 2px;
+    }
+    .book[open] .chev { transform: rotate(180deg); }
+
+    .book .detail {
+      padding: 0 18px 18px;
+      border-top: 1px solid var(--line);
+      margin-top: 2px;
+    }
+    .book .block { margin-top: 14px; }
+    .book .block .lab {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
       font-weight: 700;
       margin-bottom: 6px;
     }
-    .contact p { color: var(--ink-soft); font-size: 15px; }
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .links a {
-      text-decoration: none;
-      color: var(--ink);
-      background: var(--tile);
-      border: 1px solid var(--line);
+    .book .block.ai .lab { color: var(--sage-deep); }
+    .book .block.rec .lab { color: var(--pink-deep); }
+    .book .block .lab .badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 7px;
       border-radius: 999px;
-      padding: 9px 18px;
+    }
+    .book .block.ai .lab .badge { background: #eaf0fb; color: var(--sage-deep); }
+    .book .block.rec .lab .badge { background: #fdeaf1; color: var(--pink-deep); }
+    .book .block p { font-size: 13.5px; color: var(--ink-soft); }
+
+    /* ---------- 섹션 헤더 ---------- */
+    .section-head {
+      padding: 36px 20px 12px;
+    }
+    .section-head h2 { font-size: 18px; font-weight: 700; }
+    .section-head span {
+      display: block;
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- 연도별 목록 ---------- */
+    .year-block { padding: 0 20px; }
+    .year-block details {
+      border-top: 1px solid var(--line);
+    }
+    .year-block details summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 2px;
+    }
+    .year-block details summary::-webkit-details-marker { display: none; }
+    .year-block .yr {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .year-block .yr small {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-left: 8px;
+    }
+    .year-block .chev { color: var(--ink-soft); transition: transform .2s ease; }
+    .year-block details[open] .chev { transform: rotate(180deg); }
+    .year-block ul {
+      list-style: none;
+      padding: 0 2px 16px;
+    }
+    .year-block li {
+      display: flex;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px dashed var(--line);
       font-size: 14px;
+    }
+    .year-block li:last-child { border-bottom: none; }
+    .year-block li .bk { font-weight: 600; }
+    .year-block li .au { color: var(--ink-soft); font-size: 12.5px; }
+
+    /* ---------- 뉴스레터 CTA ---------- */
+    .cta-wrap { padding: 0 20px; }
+    .cta {
+      background: var(--sage);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 24px 22px;
+    }
+    .cta .eyebrow {
+      font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,255,255,.8); font-weight: 600; margin-bottom: 10px;
+    }
+    .cta h2 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+    .cta p { font-size: 14px; color: rgba(255,255,255,.92); }
+    .subscribe { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .subscribe input {
+      flex: 1 1 200px; border: none; border-radius: 999px;
+      padding: 12px 18px; font-size: 14px; font-family: inherit;
+    }
+    .subscribe button {
+      border: none; border-radius: 999px; padding: 12px 22px;
+      font-size: 14px; font-weight: 600; background: var(--ink);
+      color: #fff; cursor: pointer; transition: background .18s ease;
+    }
+    .subscribe button:hover { background: #000; }
+
+    /* ---------- 연락처 ---------- */
+    .contact-wrap { padding: 0 20px; }
+    .contact {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px 22px;
+    }
+    .contact h2 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+    .contact p { color: var(--ink-soft); font-size: 14px; }
+    .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .links a {
+      text-decoration: none; color: var(--ink); background: var(--tile);
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 9px 18px; font-size: 14px;
       transition: border-color .18s ease, color .18s ease;
     }
-    .links a:hover {
-      border-color: var(--sage);
-      color: var(--sage-deep);
+    .links a:hover { border-color: var(--sage); color: var(--sage-deep); }
+
+    .empty {
+      padding: 30px 20px;
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: 14px;
     }
 
     footer {
-      margin-top: 40px;
+      margin-top: 36px;
       text-align: center;
       font-size: 12px;
       color: var(--ink-soft);
     }
-
-    /* ---------- 반응형 ---------- */
-    @media (max-width: 720px) {
-      .span-4, .span-3, .span-2 { grid-column: span 6; }
-      .rx-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 440px) {
-      .rx-grid { grid-template-columns: 1fr; }
-    }
-    /* 홈으로 돌아가기 링크 */
-    .backlink {
-      display: inline-block;
-      margin-bottom: 22px;
-      font-size: 14px;
-      color: var(--ink-soft);
-      text-decoration: none;
-    }
-    .backlink:hover { color: var(--sage-deep); }
   </style>
 </head>
 
 <body>
-  <main class="wrap">
+  <div class="app">
 
-    <!-- 홈(개인 소개 페이지)으로 -->
-    <a class="backlink" href="index.html">← 홈으로</a>
-
-    <!-- ============================================================
-         ① 상단 HERO + 소개 + 지표 2개
-         ============================================================ -->
-    <section class="bento" aria-label="소개">
-
-      <!-- HERO (한 줄 소개) -->
-      <div class="tile span-4 hero">
-        <p class="eyebrow">Reading</p>
-        <!-- ▼ 바꿀 곳: 이름과 한 줄 소개 -->
-        <h1>고전을 <span class="accent">리더십</span>으로<br />
-            옮겨 읽습니다.</h1>
-        <!-- ▼ 바꿀 곳: 본인을 설명하는 한 문장 -->
-        <p>1984부터 몰입의 경영까지 — 인간을 이해하는 책을 읽고,
-           일과 조직에 쓸 수 있는 한 줄로 옮겨 나눕니다.</p>
-      </div>
-
-      <!-- 소개 타일 -->
-      <!-- ▼ 바꿀 곳: 본인 소개로 교체하세요. -->
-      <div class="tile pink span-2 about">
-        <p class="eyebrow">About</p>
-        <h2>읽고, 옮기는 사람</h2>
-        <p>매주 한 권을 "이런 상황엔 이 책"이라는 처방으로 정리합니다.
-           리더와 팀을 위한 독서 큐레이션.</p>
-      </div>
-
-      <!-- 지표 타일 2개 -->
-      <!-- ▼ 바꿀 곳: 숫자와 라벨 -->
-      <div class="tile span-3 metric">
-        <span class="num">100+</span>
-        <span class="label">읽고 기록한 책</span>
-      </div>
-      <div class="tile alt span-3 metric">
-        <span class="num">매주</span>
-        <span class="label">한 편의 처방형 서평</span>
-      </div>
-
-    </section>
-
-    <!-- ============================================================
-         ② 처방형 추천 — "이런 상황엔 이 책"
-         ============================================================ -->
-    <div class="section-head">
-      <h2>이런 상황엔, 이 책</h2>
-      <span>증상 → 책 → 한 줄 이유. 제가 추천하는 방식입니다.</span>
+    <!-- 상단 앱 바 -->
+    <div class="appbar">
+      <span class="title">📚 단청의 책장</span>
+      <a class="back" href="index.html">← 홈</a>
     </div>
 
-    <section class="rx-grid" aria-label="처방형 추천">
-
-      <!-- ▼ 바꿀 곳: 아래 카드의 증상 / 책 / 이유를 자유롭게 교체하세요. -->
-
-      <div class="tile rx">
-        <p class="symptom"><b>증상</b> · 팀이 단기 성과에만 매달릴 때</p>
-        <h3>인피니트 게임</h3>
-        <p class="author">사이먼 시넥</p>
-        <p>이기는 게임이 아니라 계속하는 게임으로 시야를 바꿔준다.</p>
-      </div>
-
-      <div class="tile rx alt">
-        <p class="symptom"><b>증상</b> · 조직이 같은 실수를 반복할 때</p>
-        <h3>학습하는 조직</h3>
-        <p class="author">피터 센게</p>
-        <p>개인의 잘못이 아니라 '시스템'을 보게 만드는 고전.</p>
-      </div>
-
-      <div class="tile rx">
-        <p class="symptom"><b>증상</b> · 일의 의미를 잃은 동료에게</p>
-        <h3>죽음의 수용소에서</h3>
-        <p class="author">빅터 프랭클</p>
-        <p>왜 살아야 하는지 아는 사람은 어떻게든 견뎌낸다.</p>
-      </div>
-
-      <div class="tile rx alt">
-        <p class="symptom"><b>증상</b> · 권력과 진실이 헷갈릴 때</p>
-        <h3>1984</h3>
-        <p class="author">조지 오웰</p>
-        <p>언어가 무너지면 생각이 무너진다는 것을 보여준다.</p>
-      </div>
-
-      <div class="tile rx">
-        <p class="symptom"><b>증상</b> · 집중이 흩어지고 성과가 얕을 때</p>
-        <h3>몰입의 경영</h3>
-        <p class="author">미하이 칙센트미하이</p>
-        <p>몰입은 의지가 아니라 설계의 문제임을 알려준다.</p>
-      </div>
-
-      <div class="tile rx alt">
-        <p class="symptom"><b>증상</b> · 글이 길기만 하고 안 읽힐 때</p>
-        <h3>On Writing Well</h3>
-        <p class="author">윌리엄 진서</p>
-        <p>잘 쓰는 일은 결국 잘 덜어내는 일이라는 원칙.</p>
-      </div>
-
-    </section>
-
-    <!-- ============================================================
-         ③ 읽는 결, 독서 테마
-         ============================================================ -->
-    <div class="section-head">
-      <h2>주로 읽는 결</h2>
-      <span>이 네 갈래가 서로 연결될 때 한 권이 자산이 됩니다.</span>
+    <!-- 히어로 -->
+    <div class="hero">
+      <p class="eyebrow">Reading · 상황별 처방</p>
+      <h1>이런 상황엔, <span class="accent">이 책</span>.</h1>
+      <p>HR·리더십 실무자를 위한 상황별 독서 처방.
+         지금 마주한 상황을 고르면, 그때 펼쳐야 할 책을 모아 보여드려요.</p>
     </div>
 
-    <section class="bento" aria-label="독서 테마">
-      <div class="tile span-6">
-        <div class="themes">
-          <!-- ▼ 바꿀 곳: 관심 테마를 자유롭게 추가/삭제하세요. -->
-          <span>리더십 · 조직</span>
-          <span>고전 · 인간</span>
-          <span>철학 · 일의 의미</span>
-          <span>읽기와 쓰기</span>
-          <span>경영 · 성장</span>
-        </div>
-      </div>
-    </section>
+    <!-- 상황 드롭다운 -->
+    <div class="picker">
+      <label for="situation">지금 어떤 상황인가요?</label>
+      <select id="situation" aria-label="상황 선택">
+        <option value="all">전체 상황 보기</option>
+        <option value="newteam">새로 팀을 맡았을 때</option>
+        <option value="conflict">팀 안에 갈등이 생겼을 때</option>
+        <option value="shortterm">단기 성과에만 매달릴 때</option>
+        <option value="repeat">조직이 같은 실수를 반복할 때</option>
+        <option value="meaning">일의 의미를 잃은 동료에게</option>
+        <option value="focus">집중이 흩어질 때</option>
+        <option value="decision">중요한 결정을 앞두고</option>
+        <option value="writing">글이 잘 안 읽힐 때</option>
+        <option value="truth">권력과 진실이 헷갈릴 때</option>
+        <option value="burnout">번아웃이 찾아왔을 때</option>
+      </select>
+    </div>
 
-    <!-- ============================================================
-         ④ 뉴스레터 구독 (비즈니스의 출발점)
-         ============================================================ -->
+    <!-- 카테고리 칩 -->
+    <div class="chips" id="chips" role="tablist" aria-label="카테고리">
+      <button class="active" data-cat="all">전체</button>
+      <button data-cat="org">조직 · 리더십</button>
+      <button data-cat="self">자기이해 · 성장</button>
+      <button data-cat="classic">고전 · 인간</button>
+      <button data-cat="write">읽기 · 쓰기</button>
+    </div>
+
+    <p class="result-count" id="count"></p>
+
+    <!-- 책 카드 목록 (JS로 렌더) -->
+    <div class="books" id="books"></div>
+
+    <!-- 연도별 읽은 책 -->
+    <div class="section-head">
+      <h2>연도별로 읽은 책</h2>
+      <span>해마다 곁에 둔 책들. 연도를 눌러 펼쳐 보세요.</span>
+    </div>
+    <div class="year-block" id="years"></div>
+
+    <!-- 뉴스레터 -->
     <div class="section-head">
       <h2>매주 한 권, 받아보기</h2>
       <span>읽고 옮긴 한 편을 메일로 보냅니다. 광고 없이, 한 통씩.</span>
     </div>
-
-    <section class="bento" aria-label="뉴스레터">
-      <div class="tile span-6 cta">
+    <div class="cta-wrap">
+      <div class="cta">
         <p class="eyebrow">Newsletter</p>
         <h2>리더를 위한 독서 한 줄</h2>
-        <p>이번 주에 읽은 책 한 권을 "이런 상황엔 이 책"으로 정리해
-           매주 한 통 보내드립니다.</p>
-        <!-- ▼ 바꿀 곳: action 을 실제 구독 서비스(스티비/메일침프/구글폼) 주소로 교체하세요. -->
+        <p>이번 주에 읽은 책 한 권을 "이런 상황엔 이 책"으로 정리해 매주 한 통 보내드립니다.</p>
         <form class="subscribe" action="#" method="post"
               onsubmit="alert('구독 서비스 주소를 연결해 주세요 (action 속성).'); return false;">
           <input type="email" name="email" placeholder="이메일 주소" required />
           <button type="submit">구독하기</button>
         </form>
       </div>
-    </section>
+    </div>
 
-    <!-- ============================================================
-         ⑤ 연락처 / SNS
-         ============================================================ -->
+    <!-- 연락처 -->
     <div class="section-head">
       <h2>함께하기</h2>
       <span>북클럽, 강연, 기업 워크숍 문의 환영합니다.</span>
     </div>
-
-    <section class="bento" aria-label="연락처">
-      <div class="tile span-6 contact">
-        <p class="eyebrow">Contact</p>
+    <div class="contact-wrap">
+      <div class="contact">
         <h2>읽은 책을 함께 나눠요</h2>
         <p>리더십×고전 북클럽, 큐레이션 강연, 협업 제안 모두 환영합니다.</p>
-
-        <!-- ▼ 바꿀 곳: 실제 이메일/SNS 주소로 교체하세요. -->
         <div class="links">
           <a href="mailto:sue.choi033@gmail.com">이메일</a>
-          <a href="https://github.com/suechoi033-private" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://ozip.me/CRkBsts?af" target="_blank" rel="noopener">오늘의집</a>
         </div>
       </div>
-    </section>
+    </div>
 
     <footer>
-      <!-- ▼ 바꿀 곳: 하단 문구 / 연도 -->
       <p>© 2026 단청. 매주 한 권씩 천천히.</p>
     </footer>
 
-  </main>
+  </div>
+
+  <script>
+    /* ============================================================
+       책 데이터 — 여기만 고치면 목록이 함께 바뀝니다.
+       cat: org(조직·리더십) / self(자기이해·성장) / classic(고전·인간) / write(읽기·쓰기)
+       sit: 위 드롭다운 value 와 맞추세요(여러 개 가능).
+       ai : AI가 정리한 핵심 요약
+       rec: 단청이 직접 쓴 추천사
+       year: 읽은 해
+       ============================================================ */
+    const BOOKS = [
+      {
+        cat: "org", icon: "♾️", title: "인피니트 게임", author: "사이먼 시넥",
+        sit: ["shortterm", "newteam"], year: 2025,
+        situation: "팀이 단기 성과에만 매달릴 때",
+        ai: "유한 게임(이기고 끝내는 게임)과 무한 게임(계속 이어가는 게임)을 구분하고, 조직은 무한 게임의 사고로 운영되어야 지속 가능하다고 말한다. 대의명분·신뢰하는 팀·맞수·유연성·용기 있는 리더십을 핵심 축으로 제시한다.",
+        rec: "분기 숫자에 쫓길 때마다 다시 펴는 책. '이기는 것'이 아니라 '계속하는 것'으로 질문을 바꾸면, 팀의 호흡이 달라져요."
+      },
+      {
+        cat: "org", icon: "🔁", title: "학습하는 조직", author: "피터 센게",
+        sit: ["repeat", "newteam"], year: 2024,
+        situation: "조직이 같은 실수를 반복할 때",
+        ai: "개인의 역량이 아니라 '시스템'이 문제를 만든다는 시스템 사고를 중심으로, 자기숙련·정신모델·공유비전·팀 학습·시스템 사고의 다섯 가지 수련을 제시한다.",
+        rec: "'누가 잘못했나'를 묻다 지칠 때, 이 책은 '무엇이 이 결과를 만드는가'로 시선을 옮겨줘요. 비난 대신 구조를 보게 되는 순간 조직이 어른스러워집니다."
+      },
+      {
+        cat: "org", icon: "🤝", title: "리더는 마지막에 먹는다", author: "사이먼 시넥",
+        sit: ["newteam", "conflict"], year: 2025,
+        situation: "새로 팀을 맡아 신뢰를 쌓아야 할 때",
+        ai: "안전감(Circle of Safety)을 만드는 것이 리더의 일이라고 말한다. 옥시토신·세로토닌 등 호르몬으로 신뢰와 협력의 생물학적 기반을 설명하며, 구성원을 보호할 때 조직이 강해진다고 주장한다.",
+        rec: "새 팀에 들어가 가장 먼저 한 일은 '안전하다'는 감각을 만드는 것이었어요. 리더의 권한은 통제가 아니라 보호에 쓰일 때 가장 큽니다."
+      },
+      {
+        cat: "classic", icon: "🕯️", title: "죽음의 수용소에서", author: "빅터 프랭클",
+        sit: ["meaning", "burnout"], year: 2023,
+        situation: "일의 의미를 잃은 동료에게",
+        ai: "아우슈비츠 생존 경험을 토대로, 인간은 '왜 살아야 하는지'의 의미를 가질 때 어떤 고통도 견딘다는 로고테라피(의미치료)를 제시한다. 자극과 반응 사이에는 선택의 자유가 있다고 말한다.",
+        rec: "성과가 아니라 의미가 사람을 버티게 한다는 걸 가장 단단하게 증명하는 책. 지친 동료에게 조언 대신 건네는 한 권이에요."
+      },
+      {
+        cat: "classic", icon: "🗽", title: "1984", author: "조지 오웰",
+        sit: ["truth"], year: 2022,
+        situation: "권력과 진실이 헷갈릴 때",
+        ai: "전체주의 사회에서 언어(신어)와 기록을 통제해 사고 자체를 지배하는 과정을 그린다. 언어가 빈약해지면 사유도 빈약해진다는 통찰을 보여준다.",
+        rec: "조직에서 '말이 흐려질 때' 가장 먼저 흐려지는 건 판단이에요. 정확한 언어를 지키는 일이 왜 윤리인지 알려주는 고전."
+      },
+      {
+        cat: "self", icon: "🌊", title: "몰입의 경영", author: "미하이 칙센트미하이",
+        sit: ["focus", "shortterm"], year: 2024,
+        situation: "집중이 흩어지고 성과가 얕을 때",
+        ai: "몰입(Flow)은 도전과 능력이 균형을 이룰 때 일어나는 최적 경험이며, 명확한 목표·즉각적 피드백·통제감이 그 조건이라고 설명한다. 몰입은 의지가 아니라 환경 설계의 문제다.",
+        rec: "집중이 안 될 때 자신을 탓하기 쉽지만, 대부분은 '설계'의 문제예요. 일의 난이도와 피드백 구조를 바꾸면 몰입은 따라옵니다."
+      },
+      {
+        cat: "write", icon: "✍️", title: "On Writing Well", author: "윌리엄 진서",
+        sit: ["writing"], year: 2023,
+        situation: "글이 길기만 하고 안 읽힐 때",
+        ai: "좋은 글쓰기의 핵심은 '덜어내기'라고 말한다. 불필요한 단어·상투어·수동태를 줄이고, 명료함과 인간미를 지키는 비소설 글쓰기의 원칙을 제시한다.",
+        rec: "보고서가 길어질수록 안 읽힌다는 걸 매일 겪어요. 잘 쓰는 일은 결국 잘 지우는 일이라는 이 책의 원칙을 메일 쓸 때마다 떠올립니다."
+      },
+      {
+        cat: "self", icon: "🧭", title: "원칙", author: "레이 달리오",
+        sit: ["decision", "repeat"], year: 2025,
+        situation: "중요한 결정을 반복적으로 내려야 할 때",
+        ai: "삶과 일의 의사결정을 '원칙'이라는 알고리즘으로 체계화한다. 극단적 투명성과 실수로부터 배우는 문화, 신뢰도 가중 의사결정 등 브리지워터의 운영 철학을 담았다.",
+        rec: "결정이 매번 즉흥적이면 사람도 조직도 지쳐요. 나만의 원칙을 글로 적어두면, 다음 결정이 훨씬 가벼워집니다."
+      },
+      {
+        cat: "self", icon: "🔥", title: "그릿", author: "앤절라 더크워스",
+        sit: ["burnout", "meaning"], year: 2024,
+        situation: "번아웃과 끈기 사이에서 흔들릴 때",
+        ai: "재능보다 열정과 끈기(Grit)가 장기적 성취를 좌우한다고 주장한다. 의도적 연습, 목적의식, 성장 마인드셋이 그릿을 키운다고 설명한다.",
+        rec: "버티는 힘은 타고나는 게 아니라 '의미와 연결'에서 온다는 걸 알려준 책. 다만 번아웃 앞에선 더 버티기보다 쉬어가라는 신호로 읽었어요."
+      },
+      {
+        cat: "org", icon: "💬", title: "어려운 대화", author: "더글러스 스톤 외",
+        sit: ["conflict", "newteam"], year: 2023,
+        situation: "팀 안에 갈등이 생겼을 때",
+        ai: "모든 어려운 대화는 '무슨 일이 있었나·감정·정체성' 세 층위로 이뤄진다고 분석한다. 옳고 그름을 가리는 대화에서 '서로의 이야기를 이해하는' 대화로 전환하는 법을 제시한다.",
+        rec: "HR로 일하며 가장 자주 펴는 책. 갈등은 없애는 게 아니라 다루는 거예요. 누가 옳은지보다 '각자 무엇을 보고 있는지'를 먼저 묻게 됩니다."
+      }
+    ];
+
+    const CAT_LABEL = {
+      org: "조직·리더십", self: "자기이해·성장",
+      classic: "고전·인간", write: "읽기·쓰기"
+    };
+    const CAT_CLASS = { org: "c-org", self: "c-self", classic: "c-classic", write: "c-write" };
+
+    let activeCat = "all";
+    let activeSit = "all";
+
+    const booksEl = document.getElementById("books");
+    const countEl = document.getElementById("count");
+
+    function render() {
+      const list = BOOKS.filter(b =>
+        (activeCat === "all" || b.cat === activeCat) &&
+        (activeSit === "all" || b.sit.includes(activeSit))
+      );
+
+      countEl.innerHTML = `지금 보는 책 <b>${list.length}</b>권`;
+
+      if (!list.length) {
+        booksEl.innerHTML =
+          `<p class="empty">이 조건에 맞는 책이 아직 없어요.<br>다른 상황이나 카테고리로 골라 보세요.</p>`;
+        return;
+      }
+
+      booksEl.innerHTML = list.map(b => `
+        <details class="book ${CAT_CLASS[b.cat]}">
+          <summary>
+            <span class="cover">${b.icon}</span>
+            <span class="head-main">
+              <span class="cat-tag">${CAT_LABEL[b.cat]}</span>
+              <h3>${b.title}</h3>
+              <div class="author">${b.author}</div>
+              <div class="situation"><b>이런 상황에</b> · ${b.situation}</div>
+            </span>
+            <svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+          <div class="detail">
+            <div class="block ai">
+              <div class="lab"><span class="badge">AI</span> 핵심 요약</div>
+              <p>${b.ai}</p>
+            </div>
+            <div class="block rec">
+              <div class="lab"><span class="badge">단청</span> 추천사</div>
+              <p>${b.rec}</p>
+            </div>
+          </div>
+        </details>
+      `).join("");
+    }
+
+    // 카테고리 칩
+    document.getElementById("chips").addEventListener("click", e => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      document.querySelectorAll("#chips button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeCat = btn.dataset.cat;
+      render();
+    });
+
+    // 상황 드롭다운
+    document.getElementById("situation").addEventListener("change", e => {
+      activeSit = e.target.value;
+      render();
+    });
+
+    // 연도별 목록 렌더
+    function renderYears() {
+      const byYear = {};
+      BOOKS.forEach(b => { (byYear[b.year] ||= []).push(b); });
+      const years = Object.keys(byYear).sort((a, b) => b - a);
+      document.getElementById("years").innerHTML = years.map((y, i) => `
+        <details ${i === 0 ? "open" : ""}>
+          <summary>
+            <span class="yr">${y}<small>${byYear[y].length}권</small></span>
+            <svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+          <ul>
+            ${byYear[y].map(b => `
+              <li><span class="bk">${b.title}</span> <span class="au">· ${b.author}</span></li>
+            `).join("")}
+          </ul>
+        </details>
+      `).join("");
+    }
+
+    render();
+    renderYears();
+  </script>
 </body>
 </html>
