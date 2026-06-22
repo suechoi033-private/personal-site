@@ -86,6 +86,42 @@
       margin-bottom: 14px;
     }
 
+    /* ---------- 상단 네비게이션 ---------- */
+    .topnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .topnav .brand {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .nav-links { display: flex; gap: 10px; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 14px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: var(--tile);
+      transition: border-color .18s ease, color .18s ease, background .18s ease;
+    }
+    .nav-links a:hover { border-color: var(--sage); color: var(--sage-deep); }
+    .nav-links a.primary {
+      background: var(--sage);
+      border-color: var(--sage);
+      color: #fff;
+    }
+    .nav-links a.primary:hover {
+      background: var(--sage-deep);
+      border-color: var(--sage-deep);
+      color: #fff;
+    }
+
     /* ---------- ① HERO ---------- */
     .hero h1 {
       font-size: clamp(28px, 4vw, 40px);
@@ -272,18 +308,29 @@
   <main class="wrap">
 
     <!-- ============================================================
+         상단 네비게이션 (서비스 보기 / 연락하기)
+         ============================================================ -->
+    <nav class="topnav" aria-label="상단 메뉴">
+      <span class="brand">단청</span>
+      <div class="nav-links">
+        <!-- 서비스 보기 → AI 결과물 섹션으로 이동, 연락하기 → 하단 연락처로 이동 -->
+        <a class="primary" href="#works">서비스 보기</a>
+        <a href="#contact">연락하기</a>
+      </div>
+    </nav>
+
+    <!-- ============================================================
          ① 상단 HERO + 잇다 소개 + 지표 2개
          ============================================================ -->
     <section class="bento" aria-label="소개">
 
       <!-- HERO (한 줄 소개) -->
       <div class="tile span-4 hero">
-        <p class="eyebrow">Hello</p>
         <!-- ▼ 바꿀 곳: 이름과 한 줄 소개 -->
         <h1>안녕하세요, <span class="accent">단청</span>입니다.<br />
             생각나는 것들을 조용히 사부작.</h1>
         <!-- ▼ 바꿀 곳: 본인을 설명하는 한 문장 -->
-        <p>생각나는 것들을 클로드로 사부작, 조용히 만들어보고 있습니다.
+        <p>몇 가지 아이디어들을 클로드로 만들어보고 있습니다.<br />
            플랫폼 기업에서 일하며, 본업은 HR입니다.</p>
       </div>
 
@@ -317,7 +364,7 @@
     <!-- ============================================================
          ② AI 결과물 3개 (전부 같은 크기, 그레이/화이트 반복)
          ============================================================ -->
-    <div class="section-head">
+    <div class="section-head" id="works">
       <h2>AI 결과물</h2>
       <!-- ▼ 바꿀 곳: 섹션 부제 -->
       <span>클로드와 함께 사부작, 만들어 본 것들입니다.</span>
@@ -374,7 +421,7 @@
     <!-- ============================================================
          ③ 연락처 / SNS
          ============================================================ -->
-    <div class="section-head">
+    <div class="section-head" id="contact">
       <h2>연락처</h2>
       <span>편하게 연락 주세요.</span>
     </div>
@@ -384,13 +431,13 @@
         <p class="eyebrow">Contact</p>
         <!-- ▼ 바꿀 곳: 연락 안내 문구 -->
         <h2>함께 이야기 나눠요</h2>
-        <p>제안, 협업, 혹은 그냥 안부 인사도 환영합니다.</p>
+        <p>조직, 인사 이야기, 책, 사는 이야기, AI로 아이디어를 구현하는 이야기
+           함께 나눠요.</p>
 
-        <!-- ▼ 바꿀 곳: 실제 이메일/SNS 주소로 교체하세요.
-             SNS 계정을 알려주시면 추가해 드릴게요. -->
+        <!-- ▼ 바꿀 곳: 실제 이메일/SNS 주소로 교체하세요. -->
         <div class="links">
           <a href="mailto:sue.choi033@gmail.com">이메일</a>
-          <a href="https://github.com/suechoi033-private" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://ozip.me/CRkBsts?af" target="_blank" rel="noopener">오늘의집</a>
         </div>
       </div>
     </section>
