@@ -138,15 +138,82 @@
       gap: var(--gap);
     }
     .work {
-      aspect-ratio: 1 / 1;
-      padding: 22px;
-      justify-content: space-between;
+      position: relative;       /* stretched-link 기준 */
+      padding: 0;               /* 미리보기를 카드 가장자리까지 */
+      overflow: hidden;
     }
     .work:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
     }
-    a.work { text-decoration: none; color: inherit; }  /* 링크 카드 밑줄 제거 */
+    /* 상단 서비스 화면 미리보기 (라이브 iframe을 축소해 스크린샷처럼) */
+    .work .preview {
+      position: relative;
+      height: 168px;
+      background: linear-gradient(135deg, #f3f6fb, #e9eef6);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .work .preview iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 1180px; height: 820px;
+      border: 0;
+      transform: scale(0.34);
+      transform-origin: top left;
+      pointer-events: none;      /* 카드 전체 클릭을 막지 않음 */
+    }
+    /* 공개 URL이 없는 서비스용 목업 미리보기 */
+    .work .preview.mock {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 22px 22px 0;
+      background: linear-gradient(135deg, #eaf0fb, #e3e9f3);
+    }
+    .work .preview.mock i {
+      flex: 1;
+      border-radius: 6px 6px 0 0;
+      background: linear-gradient(var(--sage), #9cc0ff);
+      opacity: .85;
+    }
+    .work .preview.mock i:nth-child(1){ height: 38%; }
+    .work .preview.mock i:nth-child(2){ height: 64%; }
+    .work .preview.mock i:nth-child(3){ height: 48%; }
+    .work .preview.mock i:nth-child(4){ height: 82%; }
+    .work .preview.mock i:nth-child(5){ height: 56%; }
+    /* 본문 */
+    .work .body {
+      padding: 16px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 168px);
+    }
+    .work .body-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .work .ico { font-size: 22px; line-height: 1; }
+    .work .live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: #15a34a;
+    }
+    .work .live::before {
+      content: "";
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34,197,94,.18);
+    }
+    /* 카드 전체를 클릭 영역으로 (유효한 마크업 유지) */
+    .work .stretched { position: absolute; inset: 0; z-index: 3; }
 
     /* ---------- 소개 팝업(모달) — CSS만으로 동작 ---------- */
     .modal {
@@ -193,22 +260,29 @@
       color: var(--ink-soft);
     }
     .modal-close:hover { color: var(--sage-deep); }
-    .work .tag {
-      font-size: 11px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--sage-deep);
-      font-weight: 600;
-    }
     .work h3 {
       font-size: 17px;
       font-weight: 700;
-      margin-top: auto;
+    }
+    .work .sub {
+      font-size: 12px;
+      color: var(--ink-soft);
+      margin-top: 2px;
     }
     .work p {
       font-size: 13px;
       color: var(--ink-soft);
-      margin-top: 6px;
+      margin-top: 8px;
+    }
+    .work .url {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--sage-deep);
     }
 
     .section-head {
@@ -329,41 +403,72 @@
 
     <section class="work-grid" aria-label="AI 결과물">
 
-      <!-- ▼ 바꿀 곳: 카드의 tag / 제목 / 설명을 교체하세요.
-           링크를 걸려면 <div class="tile work"> 를 <a class="tile work" href="..."> 로 바꾸면 됩니다. -->
+      <!-- ▼ 바꿀 곳: 각 카드의 미리보기 URL / 아이콘 / 제목 / 설명을 교체하세요.
+           미리보기는 라이브 화면을 축소해 보여줍니다(사용자 브라우저에서 로드). -->
 
-      <!-- 링크가 있는 카드 — 클릭하면 새 탭으로 열립니다 -->
-      <a class="tile work"
-         href="https://suechoi033-private.github.io/life-heritage-v2/index.html"
-         target="_blank" rel="noopener">
-        <span class="tag">Service</span>
-        <h3>잇다</h3>
-        <p>인생의 마지막 순간까지 주도적으로 설계하는 서비스.
-           돌봄 기록을 가족과 함께 나눕니다.</p>
-      </a>
+      <!-- 잇다 -->
+      <div class="tile work">
+        <div class="preview">
+          <iframe src="https://suechoi033-private.github.io/life-heritage-v2/index.html"
+                  loading="lazy" title="잇다 미리보기" scrolling="no" tabindex="-1"></iframe>
+        </div>
+        <div class="body">
+          <div class="body-head"><span class="ico">🤝</span><span class="live">LIVE</span></div>
+          <h3>잇다</h3>
+          <div class="sub">라이프 헤리티지 · 돌봄 기록</div>
+          <p>인생의 마지막 순간까지 주도적으로 설계하는 서비스.
+             돌봄 기록을 가족과 함께 나눕니다.</p>
+          <div class="url"><span>life-heritage-v2</span><span>↗</span></div>
+        </div>
+        <a class="stretched" href="https://suechoi033-private.github.io/life-heritage-v2/index.html"
+           target="_blank" rel="noopener" aria-label="잇다 열기"></a>
+      </div>
 
-      <!-- 링크가 있는 카드 — 클릭하면 새 탭으로 열립니다 -->
-      <a class="tile work alt"
-         href="https://suechoi033-private.github.io/hrenglishcoach-app/"
-         target="_blank" rel="noopener">
-        <span class="tag">App</span>
-        <h3>HR English Coach</h3>
-        <p>HR 실무 영어를 연습하도록 돕는 코치.</p>
-      </a>
+      <!-- HR English Coach -->
+      <div class="tile work">
+        <div class="preview">
+          <iframe src="https://suechoi033-private.github.io/hrenglishcoach-app/"
+                  loading="lazy" title="HR English Coach 미리보기" scrolling="no" tabindex="-1"></iframe>
+        </div>
+        <div class="body">
+          <div class="body-head"><span class="ico">🗣️</span><span class="live">LIVE</span></div>
+          <h3>HR English Coach</h3>
+          <div class="sub">HR 실무 영어 코치</div>
+          <p>HR 실무 영어를 연습하도록 돕는 코치.</p>
+          <div class="url"><span>hrenglishcoach</span><span>↗</span></div>
+        </div>
+        <a class="stretched" href="https://suechoi033-private.github.io/hrenglishcoach-app/"
+           target="_blank" rel="noopener" aria-label="HR English Coach 열기"></a>
+      </div>
 
-      <!-- 클릭하면 소개 팝업이 열리는 카드 -->
-      <a class="tile work" href="#dashboard-modal">
-        <span class="tag">Dashboard</span>
-        <h3>People Insight Dashboard</h3>
-        <p>사람과 조직의 흐름을 한눈에 보는 대시보드.</p>
-      </a>
+      <!-- People Insight Dashboard (공개 URL이 없어 목업 미리보기) -->
+      <div class="tile work">
+        <div class="preview mock"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="body">
+          <div class="body-head"><span class="ico">📊</span><span class="live">LIVE</span></div>
+          <h3>People Insight Dashboard</h3>
+          <div class="sub">조직 인사이트 대시보드</div>
+          <p>사람과 조직의 흐름을 한눈에 보는 대시보드.</p>
+          <div class="url"><span>자세히 보기</span><span>＋</span></div>
+        </div>
+        <a class="stretched" href="#dashboard-modal" aria-label="People Insight Dashboard 소개 보기"></a>
+      </div>
 
-      <!-- 클릭하면 독서 큐레이션 페이지로 이동하는 카드 -->
-      <a class="tile work alt" href="reading.html">
-        <span class="tag">Reading</span>
-        <h3>독서 큐레이션</h3>
-        <p>"이런 상황엔 이 책" — 리더를 위한 처방형 서평. ↗</p>
-      </a>
+      <!-- 독서 큐레이션 -->
+      <div class="tile work">
+        <div class="preview">
+          <iframe src="reading.html" loading="lazy" title="독서 큐레이션 미리보기"
+                  scrolling="no" tabindex="-1"></iframe>
+        </div>
+        <div class="body">
+          <div class="body-head"><span class="ico">📚</span><span class="live">LIVE</span></div>
+          <h3>독서 큐레이션</h3>
+          <div class="sub">리더를 위한 처방형 서평</div>
+          <p>"이런 상황엔 이 책" — 상황에 맞는 책을 골라 한 줄로.</p>
+          <div class="url"><span>reading</span><span>↗</span></div>
+        </div>
+        <a class="stretched" href="reading.html" aria-label="독서 큐레이션 열기"></a>
+      </div>
 
     </section>
 
