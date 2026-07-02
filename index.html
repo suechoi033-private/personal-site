@@ -163,6 +163,30 @@
       color: var(--ink-soft);
     }
 
+    /* ---------- 최근 활동 ---------- */
+    .recent-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .recent-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      font-size: 14px;
+    }
+    .recent-date {
+      flex-shrink: 0;
+      font-size: 12px;
+      color: var(--sage-deep);
+      font-weight: 600;
+      letter-spacing: .04em;
+      min-width: 52px;
+    }
+    .recent-text { color: var(--ink-soft); }
+
     /* ---------- ② AI 결과물 6개 (전부 같은 크기) ---------- */
     .work-grid {
       display: grid;
@@ -357,6 +381,17 @@
       <div class="tile span-2 metric">
         <span class="num">∞</span>
         <span class="label">사부작 중인 생각들</span>
+      </div>
+
+      <!-- 최근 활동 타일 (span-6 전체 너비) -->
+      <!-- ▼ 바꿀 곳: 날짜·내용 목록. 새 항목은 맨 위에 추가하세요. -->
+      <div class="tile alt span-6 recent">
+        <p class="eyebrow">Recent</p>
+        <ul class="recent-list">
+          <li><span class="recent-date">2026.07</span><span class="recent-text">People Insight Dashboard 운영 중 — 데이터 정합성 개선 작업</span></li>
+          <li><span class="recent-date">2026.06</span><span class="recent-text">개인 홈페이지 오픈 (이 페이지)</span></li>
+          <li><span class="recent-date">2026.04</span><span class="recent-text">HR English Coach 앱 제작</span></li>
+        </ul>
       </div>
 
     </section>
