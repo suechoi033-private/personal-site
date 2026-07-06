@@ -550,13 +550,6 @@
         </div>
       </div>
 
-      <div class="member-hr">
-        <h3>💼 HR 실무자 인증 할인 — 20%</h3>
-        <p>기업 인사담당자임을 명함으로 인증하면 <b>월 3,900원 / 연 29,000원</b>.</p>
-        <!-- 결제 도입 시: PAY_CONFIG.hrVerifyFormUrl(명함 업로드 폼)로 자동 연결. 비어있으면 mailto 폴백 -->
-        <a id="hr-verify-link" href="mailto:sue.choi033@gmail.com?subject=%5B%EB%8B%A8%EC%B2%AD%EC%9D%98%20%EC%B1%85%EC%9E%A5%5D%20HR%20%EC%9D%B8%EC%A6%9D%20%ED%95%A0%EC%9D%B8%20%EC%8B%A0%EC%B2%AD&body=%EB%AA%85%ED%95%A8%20%EC%82%AC%EC%A7%84%EC%9D%84%20%EC%B2%A8%EB%B6%80%ED%95%B4%20%EC%A3%BC%EC%84%B8%EC%9A%94.">명함 첨부해 인증 신청 →</a>
-      </div>
-
       <div class="member-row">
         <div class="member-join">
           <h3>가입하기</h3>
@@ -759,7 +752,6 @@
     const PAY_CONFIG = {
       checkoutMonthly: "",     // Lemon Squeezy 월간 구독 체크아웃 URL
       checkoutYearly:  "",     // Lemon Squeezy 연간 구독 체크아웃 URL
-      hrVerifyFormUrl: "",     // 명함 인증 폼(Tally/Google Form) URL
       licenseMode:     "offline"  // "offline"(현재) | "lemonsqueezy"(전환 시)
     };
 
@@ -946,7 +938,6 @@
       const set = (id, url) => { const el = document.getElementById(id); if (el && url) { el.href = url; el.target = "_blank"; el.rel = "noopener"; } };
       set("subscribe-monthly", PAY_CONFIG.checkoutMonthly);
       set("subscribe-yearly", PAY_CONFIG.checkoutYearly);
-      set("hr-verify-link", PAY_CONFIG.hrVerifyFormUrl);
     }
 
     render();
