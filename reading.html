@@ -417,12 +417,24 @@
     .member-hr { border-left: 4px solid var(--sage); }
     .member-hr h3, .member-join h3, .member-redeem h3 { font-size: 15px; margin-bottom: 6px; }
     .member-hr p, .member-join p { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 8px; }
-    .member-hr a, .member-join a {
+    .member-hr a {
       font-size: 14px;
       font-weight: 600;
       color: var(--sage-deep);
       text-decoration: none;
     }
+    .join-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+    .join-primary, .join-ghost {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 9px 18px;
+    }
+    .join-primary { background: var(--sage); color: #fff; }
+    .join-primary:hover { background: var(--sage-deep); }
+    .join-ghost { border: 1px solid var(--line); color: var(--ink); }
+    .join-ghost:hover { border-color: var(--sage); color: var(--sage-deep); }
     .member-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .redeem-row { display: flex; gap: 8px; margin-top: 6px; }
     .redeem-row input {
@@ -541,15 +553,19 @@
       <div class="member-hr">
         <h3>💼 HR 실무자 인증 할인 — 20%</h3>
         <p>기업 인사담당자임을 명함으로 인증하면 <b>월 3,900원 / 연 29,000원</b>.</p>
-        <!-- TODO(운영): 결제링크 도입 시 mailto 교체 -->
-        <a href="mailto:sue.choi033@gmail.com?subject=%5B%EB%8B%A8%EC%B2%AD%EC%9D%98%20%EC%B1%85%EC%9E%A5%5D%20HR%20%EC%9D%B8%EC%A6%9D%20%ED%95%A0%EC%9D%B8%20%EC%8B%A0%EC%B2%AD&body=%EB%AA%85%ED%95%A8%20%EC%82%AC%EC%A7%84%EC%9D%84%20%EC%B2%A8%EB%B6%80%ED%95%B4%20%EC%A3%BC%EC%84%B8%EC%9A%94.">명함 첨부해 인증 신청 →</a>
+        <!-- 결제 도입 시: PAY_CONFIG.hrVerifyFormUrl(명함 업로드 폼)로 자동 연결. 비어있으면 mailto 폴백 -->
+        <a id="hr-verify-link" href="mailto:sue.choi033@gmail.com?subject=%5B%EB%8B%A8%EC%B2%AD%EC%9D%98%20%EC%B1%85%EC%9E%A5%5D%20HR%20%EC%9D%B8%EC%A6%9D%20%ED%95%A0%EC%9D%B8%20%EC%8B%A0%EC%B2%AD&body=%EB%AA%85%ED%95%A8%20%EC%82%AC%EC%A7%84%EC%9D%84%20%EC%B2%A8%EB%B6%80%ED%95%B4%20%EC%A3%BC%EC%84%B8%EC%9A%94.">명함 첨부해 인증 신청 →</a>
       </div>
 
       <div class="member-row">
         <div class="member-join">
           <h3>가입하기</h3>
-          <p>신청하면 결제 안내와 함께 멤버십 코드를 보내드립니다.</p>
-          <a href="mailto:sue.choi033@gmail.com?subject=%5B%EB%8B%A8%EC%B2%AD%EC%9D%98%20%EC%B1%85%EC%9E%A5%5D%20%EB%A9%A4%EB%B2%84%EC%8B%AD%20%EC%8B%A0%EC%B2%AD&body=%EC%9B%94%EA%B0%84%20%2F%20%EC%97%B0%EA%B0%84%20%EC%A4%91%20%EC%84%A0%ED%83%9D%ED%95%B4%20%EC%A0%81%EC%96%B4%20%EC%A3%BC%EC%84%B8%EC%9A%94.">이메일로 가입 신청 →</a>
+          <p>결제하면 멤버십 코드가 자동으로 발급됩니다.</p>
+          <!-- 결제 도입 시: PAY_CONFIG.checkoutMonthly/Yearly URL로 자동 연결. 비어있으면 mailto 폴백 -->
+          <div class="join-btns">
+            <a id="subscribe-monthly" class="join-primary" href="mailto:sue.choi033@gmail.com?subject=%5B%EB%8B%A8%EC%B2%AD%EC%9D%98%20%EC%B1%85%EC%9E%A5%5D%20%EC%9B%94%EA%B0%84%20%EB%A9%A4%EB%B2%84%EC%8B%AD%20%EC%8B%A0%EC%B2%AD">월 4,900원 시작</a>
+            <a id="subscribe-yearly" class="join-ghost" href="mailto:sue.choi033@gmail.com?subject=%5B%EB%8B%A8%EC%B2%AD%EC%9D%98%20%EC%B1%85%EC%9E%A5%5D%20%EC%97%B0%EA%B0%84%20%EB%A9%A4%EB%B2%84%EC%8B%AD%20%EC%8B%A0%EC%B2%AD">연 39,000원</a>
+          </div>
         </div>
         <div class="member-redeem">
           <h3>멤버십 코드 입력</h3>
@@ -735,6 +751,18 @@
     };
     const CAT_CLASS = { org: "c-org", self: "c-self", classic: "c-classic", write: "c-write" };
 
+    /* ============================================================
+       결제 설정 (PAY_CONFIG) — 값을 채우면 자동 결제/검증이 켜집니다.
+       비어 있으면 기존 mailto 신청 + 오프라인 코드로 동작(안전한 폴백).
+       설계 상세: docs/MONETIZATION.md
+       ============================================================ */
+    const PAY_CONFIG = {
+      checkoutMonthly: "",     // Lemon Squeezy 월간 구독 체크아웃 URL
+      checkoutYearly:  "",     // Lemon Squeezy 연간 구독 체크아웃 URL
+      hrVerifyFormUrl: "",     // 명함 인증 폼(Tally/Google Form) URL
+      licenseMode:     "offline"  // "offline"(현재) | "lemonsqueezy"(전환 시)
+    };
+
     /* ===== 멤버십 (유효 코드의 SHA-256 해시만 보관 — 원본 코드는 운영자 관리) ===== */
     const MEMBER_HASHES = [
       "28e2ddee8f19e6af5697b0ed385d4f0947907ef85d763b06cbd7a57e3c47dda1",
@@ -763,6 +791,28 @@
     async function sha256hex(str) {
       const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
       return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    /* 라이선스 검증 — 모드에 따라 오프라인 해시 또는 Lemon Squeezy License API */
+    async function validateLicense(code) {
+      if (PAY_CONFIG.licenseMode === "lemonsqueezy") {
+        // 백엔드 없이 브라우저에서 직접 검증 (구독 활성 시 valid=true)
+        try {
+          const res = await fetch("https://api.lemonsqueezy.com/v1/licenses/validate", {
+            method: "POST",
+            headers: { "Accept": "application/json", "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ license_key: code })
+          });
+          const data = await res.json();
+          const active = data.valid && (!data.license_key || data.license_key.status === "active");
+          return { ok: !!active, msg: active ? "✅ 멤버십이 확인되었습니다." : "구독이 활성 상태가 아닙니다." };
+        } catch (e) {
+          return { ok: false, msg: "검증 서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요." };
+        }
+      }
+      // 기본: 오프라인 해시 검증
+      if (MEMBER_HASHES.includes(await sha256hex(code))) return { ok: true, msg: "✅ 멤버십이 활성화되었습니다." };
+      return { ok: false, msg: "유효하지 않은 코드입니다." };
     }
 
     let activeCat = "all";
@@ -881,19 +931,28 @@
       const code = document.getElementById("member-code").value.trim().toUpperCase();
       const status = document.getElementById("member-status");
       if (!code) { status.textContent = "코드를 입력하세요."; return; }
-      if (MEMBER_HASHES.includes(await sha256hex(code))) {
+      status.textContent = "확인 중…";
+      const r = await validateLicense(code);
+      status.textContent = r.msg;
+      if (r.ok) {
         localStorage.setItem(MEMBER_KEY, code);
-        status.textContent = "✅ 멤버십이 활성화되었습니다.";
         refreshRedeemUI();
         render();
-      } else {
-        status.textContent = "유효하지 않은 코드입니다.";
       }
     });
+
+    // PAY_CONFIG 값이 있으면 결제/인증 링크를 자동 연결 (없으면 mailto 폴백 유지)
+    function wirePayLinks() {
+      const set = (id, url) => { const el = document.getElementById(id); if (el && url) { el.href = url; el.target = "_blank"; el.rel = "noopener"; } };
+      set("subscribe-monthly", PAY_CONFIG.checkoutMonthly);
+      set("subscribe-yearly", PAY_CONFIG.checkoutYearly);
+      set("hr-verify-link", PAY_CONFIG.hrVerifyFormUrl);
+    }
 
     render();
     renderYears();
     refreshRedeemUI();
+    wirePayLinks();
   </script>
 </body>
 </html>
