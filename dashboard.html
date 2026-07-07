@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>서비스 관리 대시보드 · 단청</title>
+  <meta name="description" content="단청이 운영하는 서비스들의 상태·가격·지표를 한눈에 관리하는 운영 대시보드." />
+
+  <style>
+    :root {
+      --bg:        #f4f6fa;
+      --tile:      #ffffff;
+      --tile-alt:  #eef1f6;
+      --ink:       #1f2430;
+      --ink-soft:  #6b7280;
+      --line:      #e6e9ef;
+      --sage:      #4c8dff;
+      --sage-deep: #2f6fe0;
+      --pink:      #fbd3e1;
+      --pink-deep: #e98aa9;
+      --green:     #15a34a;
+      --amber:     #d98a00;
+      --radius:    18px;
+      --gap:       16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Apple SD Gothic Neo", "Noto Sans KR", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding: 32px 20px 72px;
+    }
+    .wrap { max-width: 1040px; margin: 0 auto; }
+
+    /* 상단바 */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .topbar h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+    .topbar .sub { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+    .topbar a.back {
+      text-decoration: none; font-size: 14px; color: var(--ink);
+      border: 1px solid var(--line); background: var(--tile);
+      border-radius: 999px; padding: 8px 16px;
+    }
+    .topbar a.back:hover { border-color: var(--sage); color: var(--sage-deep); }
+
+    /* KPI 요약 */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap);
+      margin-bottom: 24px;
+    }
+    .kpi {
+      background: var(--tile);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .kpi .label { font-size: 12px; color: var(--ink-soft); letter-spacing: .02em; }
+    .kpi .num { font-size: clamp(24px, 4vw, 32px); font-weight: 800; color: var(--sage-deep); margin-top: 6px; letter-spacing: -0.02em; }
+    .kpi .unit { font-size: 14px; font-weight: 600; color: var(--ink-soft); margin-left: 3px; }
+
+    .section-title { font-size: 15px; font-weight: 700; margin: 4px 4px 14px; color: var(--ink); }
+
+    /* 서비스 카드 */
+    .svc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
+    .svc {
+      background: var(--tile);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .svc-head { display: flex; align-items: flex-start; gap: 12px; }
+    .svc-ico {
+      flex: 0 0 42px; width: 42px; height: 42px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+      background: var(--tile-alt);
+    }
+    .svc-head .main { flex: 1; min-width: 0; }
+    .svc-head h3 { font-size: 16px; font-weight: 700; }
+    .svc-head .cat { font-size: 12px; color: var(--ink-soft); margin-top: 1px; }
+    .status {
+      flex: 0 0 auto; font-size: 11px; font-weight: 700; border-radius: 999px;
+      padding: 3px 10px; letter-spacing: .03em;
+    }
+    .status.live    { background: #e5f6ec; color: var(--green); }
+    .status.private { background: #fff2d9; color: var(--amber); }
+    .status.dev     { background: var(--tile-alt); color: var(--ink-soft); }
+
+    .price-line { font-size: 13.5px; color: var(--ink); }
+    .price-line b { color: var(--sage-deep); }
+
+    /* 지표 입력 */
+    .metrics { display: flex; gap: 10px; }
+    .metric-box {
+      flex: 1;
+      background: var(--tile-alt);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .metric-box .m-label { font-size: 11px; color: var(--ink-soft); }
+    .metric-box .m-value { display: flex; align-items: baseline; gap: 2px; margin-top: 2px; }
+    .metric-box input {
+      width: 100%;
+      border: none; background: transparent;
+      font-size: 20px; font-weight: 800; color: var(--ink);
+      font-family: inherit; padding: 0;
+    }
+    .metric-box input:focus { outline: none; color: var(--sage-deep); }
+    .metric-box .m-mrr { font-size: 20px; font-weight: 800; color: var(--sage-deep); }
+    .metric-box .won { font-size: 12px; color: var(--ink-soft); }
+
+    /* 링크 버튼 */
+    .svc-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+    .svc-links a {
+      text-decoration: none; font-size: 12.5px; font-weight: 600;
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 6px 13px; color: var(--ink);
+    }
+    .svc-links a:hover { border-color: var(--sage); color: var(--sage-deep); }
+    .svc-links a.muted { color: var(--ink-soft); }
+    .svc-links a.disabled { opacity: .45; pointer-events: none; }
+
+    .note {
+      font-size: 12px; color: var(--ink-soft);
+      background: var(--tile-alt); border-radius: 10px; padding: 8px 12px;
+    }
+
+    .save-hint { text-align: center; font-size: 12px; color: var(--ink-soft); margin-top: 20px; }
+    .save-hint b { color: var(--sage-deep); }
+
+    footer { margin-top: 28px; text-align: center; font-size: 12px; color: var(--ink-soft); }
+
+    @media (max-width: 760px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .svc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="topbar">
+      <div>
+        <h1>서비스 관리 대시보드</h1>
+        <p class="sub">운영 중인 서비스의 상태·가격·지표를 한곳에서. 지표는 직접 입력하면 이 브라우저에 저장됩니다.</p>
+      </div>
+      <a class="back" href="index.html">← 홈</a>
+    </div>
+
+    <!-- KPI 요약 (서비스 데이터에서 자동 계산) -->
+    <div class="kpi-row" id="kpi-row"></div>
+
+    <div class="section-title">서비스</div>
+    <div class="svc-grid" id="svc-grid"></div>
+
+    <p class="save-hint">💡 구독자 수를 입력하면 <b>예상 MRR</b>과 상단 지표가 자동 계산됩니다. (내 브라우저에만 저장 · 서버 전송 없음)</p>
+
+    <footer>© 2026 단청 · 운영 대시보드</footer>
+  </div>
+
+  <script>
+    /* ============================================================
+       서비스 목록 — 여기만 고치면 대시보드가 함께 바뀝니다.
+       status: "live"(공개 운영) | "private"(사내/비공개) | "dev"(준비 중)
+       priceMonthly: 월 구독가(원). 0이면 무료/비과금 → MRR 계산 제외.
+       app: 공개 URL(없으면 ""), repo: GitHub 저장소, manage: 결제/설정 링크(없으면 "")
+       ============================================================ */
+    const SERVICES = [
+      {
+        id: "itda", icon: "🕊️", name: "잇다", cat: "라이프 헤리티지 서비스",
+        status: "live", priceMonthly: 0, priceLabel: "무료 (베타)",
+        app: "https://suechoi033-private.github.io/life-heritage-v2/index.html",
+        repo: "https://github.com/suechoi033-private/life-heritage-v2",
+        manage: "",
+        note: "인생의 마지막을 주도적으로 설계하는 서비스. 현재 무료 베타."
+      },
+      {
+        id: "hrec", icon: "🗣️", name: "HR English Coach", cat: "스타트업 HR 영어 코치",
+        status: "live", priceMonthly: 9900, priceLabel: "Pro 월 9,900 · 연 79,000",
+        app: "https://suechoi033-private.github.io/hrenglishcoach-app/",
+        repo: "https://github.com/suechoi033-private/hrenglishcoach-app",
+        manage: "https://github.com/suechoi033-private/hrenglishcoach-app/blob/main/docs/PRICING.md",
+        note: "무료 3케이스 / Pro 5케이스. 결제 도입 전(현재 코드 방식)."
+      },
+      {
+        id: "pid", icon: "📊", name: "People Insight Dashboard", cat: "조직 데이터 대시보드",
+        status: "private", priceMonthly: 0, priceLabel: "사내 운영 (비공개)",
+        app: "",
+        repo: "",
+        manage: "",
+        note: "재직 중인 기업 내에서 운영·보완 중. 외부 공개 URL 없음."
+      },
+      {
+        id: "reading", icon: "📚", name: "일독", cat: "상황별 독서 처방 · 멤버십",
+        status: "live", priceMonthly: 4900, priceLabel: "멤버십 월 4,900 · 연 39,000",
+        app: "reading.html",
+        repo: "https://github.com/suechoi033-private/personal-site/blob/main/reading.html",
+        manage: "https://github.com/suechoi033-private/personal-site/blob/main/docs/MONETIZATION.md",
+        note: "무료 4권 / 멤버십 전체. 결제 도입 전(현재 코드 방식)."
+      }
+    ];
+
+    const LS_KEY = "svc_dashboard_subs";
+    const loadSubs = () => { try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch { return {}; } };
+    const saveSubs = (o) => localStorage.setItem(LS_KEY, JSON.stringify(o));
+    const won = (n) => n.toLocaleString("ko-KR");
+    const esc = (s) => { const d = document.createElement("div"); d.textContent = s; return d.innerHTML; };
+
+    const STATUS_LABEL = { live: "LIVE", private: "사내운영", dev: "준비중" };
+
+    function svcMRR(s, subs) {
+      const n = subs[s.id] || 0;
+      return s.priceMonthly * n;
+    }
+
+    function renderKPI() {
+      const subs = loadSubs();
+      const total = SERVICES.length;
+      const live = SERVICES.filter(s => s.status === "live").length;
+      const totalSubs = SERVICES.reduce((a, s) => a + (subs[s.id] || 0), 0);
+      const mrr = SERVICES.reduce((a, s) => a + svcMRR(s, subs), 0);
+      const kpis = [
+        { label: "전체 서비스", num: total, unit: "개" },
+        { label: "공개 운영(LIVE)", num: live, unit: "개" },
+        { label: "총 구독자", num: won(totalSubs), unit: "명" },
+        { label: "예상 MRR", num: won(mrr), unit: "원" }
+      ];
+      document.getElementById("kpi-row").innerHTML = kpis.map(k => `
+        <div class="kpi">
+          <div class="label">${k.label}</div>
+          <div class="num">${k.num}<span class="unit">${k.unit}</span></div>
+        </div>`).join("");
+    }
+
+    function linkBtn(href, label, cls = "") {
+      if (!href) return `<a class="disabled ${cls}">${label}</a>`;
+      const ext = href.startsWith("http") ? ` target="_blank" rel="noopener"` : "";
+      return `<a class="${cls}" href="${esc(href)}"${ext}>${label}</a>`;
+    }
+
+    function renderServices() {
+      const subs = loadSubs();
+      document.getElementById("svc-grid").innerHTML = SERVICES.map(s => {
+        const paid = s.priceMonthly > 0;
+        const mrr = svcMRR(s, subs);
+        return `
+        <div class="svc">
+          <div class="svc-head">
+            <div class="svc-ico">${s.icon}</div>
+            <div class="main">
+              <h3>${esc(s.name)}</h3>
+              <div class="cat">${esc(s.cat)}</div>
+            </div>
+            <span class="status ${s.status}">${STATUS_LABEL[s.status]}</span>
+          </div>
+
+          <div class="price-line">💳 <b>${esc(s.priceLabel)}</b></div>
+
+          <div class="metrics">
+            <div class="metric-box">
+              <div class="m-label">구독자 (명)</div>
+              <div class="m-value">
+                ${paid
+                  ? `<input type="number" min="0" inputmode="numeric" data-id="${s.id}" value="${subs[s.id] || 0}" aria-label="${esc(s.name)} 구독자 수" />`
+                  : `<span class="m-mrr">—</span>`}
+              </div>
+            </div>
+            <div class="metric-box">
+              <div class="m-label">예상 MRR</div>
+              <div class="m-value">
+                ${paid ? `<span class="m-mrr" id="mrr-${s.id}">${won(mrr)}</span><span class="won">원</span>` : `<span class="m-mrr">—</span>`}
+              </div>
+            </div>
+          </div>
+
+          <div class="svc-links">
+            ${linkBtn(s.app, "앱 열기 ↗")}
+            ${linkBtn(s.repo, "저장소", "muted")}
+            ${linkBtn(s.manage, "결제·설정", "muted")}
+          </div>
+
+          <div class="note">${esc(s.note)}</div>
+        </div>`;
+      }).join("");
+
+      // 구독자 입력 → 저장 + MRR/ KPI 갱신
+      document.querySelectorAll('.metric-box input[data-id]').forEach(inp => {
+        inp.addEventListener("input", () => {
+          const subs = loadSubs();
+          subs[inp.dataset.id] = Math.max(0, parseInt(inp.value || "0", 10) || 0);
+          saveSubs(subs);
+          const s = SERVICES.find(x => x.id === inp.dataset.id);
+          const cell = document.getElementById("mrr-" + inp.dataset.id);
+          if (cell) cell.textContent = won(svcMRR(s, subs));
+          renderKPI();
+        });
+      });
+    }
+
+    renderKPI();
+    renderServices();
+  </script>
+</body>
+</html>
