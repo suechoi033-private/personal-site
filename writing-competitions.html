@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026년 7월 공모전 · 수상 전략 & 추천 · 단청</title>
+  <meta name="description" content="2026년 7월 마감 글쓰기 공모전 28개 — 공식 링크 · 수상 전략 · 단청님 맞춤 추천 TOP 3" />
+  <style>
+    :root {
+      --bg:        #ffffff;
+      --tile:      #ffffff;
+      --tile-alt:  #eef1f6;
+      --ink:       #1f2430;
+      --ink-soft:  #6b7280;
+      --line:      #e6e9ef;
+      --sage:      #4c8dff;
+      --sage-deep: #2f6fe0;
+      --pink:      #fbd3e1;
+      --pink-deep: #e98aa9;
+      --gold:      #e8a33d;
+      --closed:    #b6bcc7;
+      --radius:    18px;
+      --gap:       16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Apple SD Gothic Neo", "Noto Sans KR", Roboto,
+                   "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      padding: 32px 20px 72px;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; }
+
+    /* nav */
+    .topnav {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .topnav .brand { font-weight: 800; letter-spacing: -.02em; }
+    .topnav a { color: var(--ink-soft); text-decoration: none; font-size: 14px; }
+    .topnav a:hover { color: var(--sage-deep); }
+
+    /* hero */
+    .hero {
+      background: linear-gradient(135deg, #f5f8ff 0%, #ffffff 60%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 30px 28px;
+      margin-bottom: 26px;
+    }
+    .hero h1 { font-size: 26px; line-height: 1.3; letter-spacing: -.02em; margin-bottom: 10px; }
+    .hero h1 .accent { color: var(--sage-deep); }
+    .hero p { color: var(--ink-soft); font-size: 15px; max-width: 60ch; }
+    .hero .meta {
+      margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .chip {
+      font-size: 12.5px; padding: 4px 11px; border-radius: 999px;
+      background: var(--tile-alt); color: var(--ink-soft); font-weight: 600;
+    }
+    .chip.blue { background: #e6efff; color: var(--sage-deep); }
+    .chip.pink { background: #fdeaf1; color: var(--pink-deep); }
+
+    /* section heads */
+    .section-head { margin: 40px 0 16px; }
+    .section-head h2 { font-size: 20px; letter-spacing: -.01em; }
+    .section-head p { color: var(--ink-soft); font-size: 14px; margin-top: 4px; }
+
+    /* recommend cards */
+    .rec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+    .rec {
+      border: 1.5px solid var(--sage); border-radius: var(--radius);
+      padding: 20px 18px; background: #fbfdff; position: relative;
+      display: flex; flex-direction: column;
+    }
+    .rec .rank {
+      position: absolute; top: -12px; left: 16px;
+      background: var(--sage); color: #fff; font-weight: 800; font-size: 12.5px;
+      padding: 3px 12px; border-radius: 999px;
+    }
+    .rec h3 { font-size: 16.5px; margin: 8px 0 2px; letter-spacing: -.01em; }
+    .rec .host { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 12px; }
+    .rec .why { font-size: 13.5px; margin-bottom: 12px; }
+    .rec .facts { font-size: 12.5px; color: var(--ink-soft); line-height: 1.9; margin-bottom: 14px; }
+    .rec .facts b { color: var(--ink); font-weight: 700; }
+    .rec .go {
+      margin-top: auto; display: inline-block; text-align: center;
+      background: var(--sage); color: #fff; text-decoration: none;
+      font-weight: 700; font-size: 13.5px; padding: 9px 12px; border-radius: 11px;
+    }
+    .rec .go:hover { background: var(--sage-deep); }
+
+    /* competition list */
+    .list { display: grid; gap: 12px; }
+    .item {
+      border: 1px solid var(--line); border-radius: 14px;
+      padding: 16px 18px; background: var(--tile);
+      display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: start;
+    }
+    .item .num { color: var(--ink-soft); font-size: 12px; font-weight: 700; }
+    .item h4 { font-size: 15.5px; letter-spacing: -.01em; display: inline; }
+    .item .host { color: var(--ink-soft); font-size: 12.5px; margin: 2px 0 8px; }
+    .item .facts { font-size: 13px; line-height: 1.85; }
+    .item .facts b { font-weight: 700; }
+    .item .strat {
+      font-size: 12.8px; color: #4a5568; margin-top: 8px;
+      background: var(--tile-alt); padding: 8px 11px; border-radius: 9px;
+    }
+    .item .strat b { color: var(--sage-deep); }
+    .item .right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .badge {
+      font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+    }
+    .badge.soon  { background: #fdeaea; color: #d34848; }
+    .badge.open  { background: #e7f6ec; color: #1f9d54; }
+    .badge.mid   { background: #fff4e2; color: #c8801e; }
+    .badge.closed{ background: #eef0f3; color: var(--closed); }
+    .badge.flag  { background: #fff4e2; color: #c8801e; font-weight: 700; }
+    .link {
+      font-size: 12.5px; color: var(--sage-deep); text-decoration: none; font-weight: 600;
+      word-break: break-all; text-align: right;
+    }
+    .link:hover { text-decoration: underline; }
+    .warn { color: var(--pink-deep); font-weight: 700; font-size: 12px; }
+
+    .closed-item { opacity: .62; }
+
+    footer {
+      margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--line);
+      color: var(--ink-soft); font-size: 12.5px; line-height: 1.9;
+    }
+
+    @media (max-width: 760px) {
+      .rec-grid { grid-template-columns: 1fr; }
+      .rec .rank { top: -11px; }
+      .item { grid-template-columns: 1fr; }
+      .item .right { flex-direction: row; flex-wrap: wrap; align-items: center; text-align: left; }
+      .link { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="topnav">
+      <span class="brand">단청</span>
+      <div><a href="index.html">← 홈으로</a></div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+      <h1>2026년 7월 공모전 <span class="accent">수상 전략 &amp; 추천</span></h1>
+      <p>등단닷컴이 정리한 7월 마감 상금 공모전 28개를 공식 링크·참가자격·수상 전략까지 다시 조사해 정리했어요.
+         <b>글은 쓰고 싶은데 목적도 있고 상금도 타고 싶은</b> 단청님께 맞춰, 마감이 남았고 현실적으로 도전 가능한 것 위주로 추렸습니다.</p>
+      <div class="meta">
+        <span class="chip blue">기준일 2026. 7. 14</span>
+        <span class="chip">전체 28개 · 지원 가능 17개 · 마감 6개</span>
+        <span class="chip pink">추천 3개 · 아래 참조</span>
+      </div>
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="section-head">
+      <h2>🎯 단청님을 위한 추천 TOP 3</h2>
+      <p>선정 기준 — ① 마감까지 여유 ② 성인 누구나 지원 가능 ③ 짧은 시간에 완성 가능한 분량 ④ "목적 있는 글쓰기"에 맞는 주제 ⑤ 상금.</p>
+    </div>
+    <div class="rec-grid">
+      <div class="rec">
+        <span class="rank">1순위 · 가성비</span>
+        <h3>저작권 인식제고 글 공모전</h3>
+        <div class="host">문화체육관광부 · 한국저작권위원회</div>
+        <div class="why">AI로 만드는 사람에게 <b>가장 할 말이 많은 주제</b>. 산문 3,600자면 하루면 초고가 나오고, 대상은 국무총리상+200만원. 온라인 접수라 절차도 간단해요. <b>제일 먼저 이걸 쓰세요.</b></div>
+        <div class="facts">
+          <b>장르</b> 시(20행 이내) / 산문(1,000~3,600자)<br>
+          <b>상금</b> 대상 200만원 (총 1,250만원·50편)<br>
+          <b>자격</b> 만 6세 이상 누구나<br>
+          <b>마감</b> 7/31 (D-17) · 온라인 접수
+        </div>
+        <a class="go" href="https://www.copyrightcontest.com" target="_blank" rel="noopener">공식 접수 사이트 →</a>
+      </div>
+      <div class="rec">
+        <span class="rank">2순위 · 강점 살리기</span>
+        <h3>제15회 협성 독서왕 독후감</h3>
+        <div class="host">협성문화재단 · 북두칠성도서관</div>
+        <div class="why">이미 서평 서비스(일독)를 만드는 단청님의 <b>홈그라운드</b>. 지정도서 1권 읽고 독후감 한 편. 총상금 규모가 1억이 넘고 최고상은 500만원대라 투입 대비 기대값이 큽니다.</div>
+        <div class="facts">
+          <b>장르</b> 지정도서 독후감 (목록 중 1권)<br>
+          <b>상금</b> 최고 500만원대 (총 ~1억 1,150만원)<br>
+          <b>자격</b> 초등~일반 부문별 개방<br>
+          <b>마감</b> 7/31 (D-17) · 이메일/온라인
+        </div>
+        <a class="go" href="http://www.hscf.co.kr/kor/sub6_01.php" target="_blank" rel="noopener">공식 공모 페이지 →</a>
+      </div>
+      <div class="rec">
+        <span class="rank">3순위 · 목적+출간</span>
+        <h3>노벨라 앤솔로지 &lt;경계에 선 존재들&gt;</h3>
+        <div class="host">노벨라스튜디오</div>
+        <div class="why">"목적 있는 글쓰기"의 결과물이 가장 뚜렷한 선택 — <b>단행본 출간 + 영상화 지원</b>. 한국 오컬트 단편이라 소재도 매력적. 다만 80~100매라 셋 중 품이 제일 크니, 소설을 쓰고 싶다면 이걸 도전하세요.</div>
+        <div class="facts">
+          <b>장르</b> 단편소설 (원고지 80~100매)<br>
+          <b>상금</b> 선인세 100만원 + 출간·영상화 (4편)<br>
+          <b>자격</b> 신진·기성 누구나<br>
+          <b>마감</b> 7/24 (D-10) · 온라인
+        </div>
+        <a class="go" href="https://novela.so/ko/contest" target="_blank" rel="noopener">공식 공모 페이지 →</a>
+      </div>
+    </div>
+    <p style="font-size:12.8px;color:var(--ink-soft);margin-top:14px;">
+      💡 <b>더 짧게 끝내고 싶다면</b> 3순위 대신 <b>정읍사문학상</b>(시/수필·대상 300만원·7/30) 또는 <b>이순신 독후감</b>(리더십 주제·100만원·7/30)도 좋은 대안이에요. 아래 전체 목록에서 확인하세요.
+    </p>
+
+    <!-- OPEN LIST -->
+    <div class="section-head" id="open">
+      <h2>✅ 아직 지원 가능 (마감 임박순)</h2>
+      <p>마감이 가까운 순서로 정렬했어요. 접수 방식·마감 시각은 제출 전 공식 페이지에서 꼭 재확인하세요.</p>
+    </div>
+    <div class="list">
+
+      <!-- 15 정남진 -->
+      <div class="item">
+        <div>
+          <span class="num">15</span> <h4>제4회 정남진신인문학상</h4>
+          <div class="host">장흥군 · 한국문학특구포럼 (계간 『시산맥』)</div>
+          <div class="facts"><b>시</b> 5~10편 · <b>상금</b> 당선 300만원+등단 · <b>자격</b> 신인/재등단 희망자(기성 시인 제외)</div>
+          <div class="strat"><b>전략</b> 5~10편 전체가 하나의 작품 세계로 읽히도록 톤·소재를 일관되게. 실험성보다 밀도 있는 서정·언어 완성도.</div>
+        </div>
+        <div class="right">
+          <span class="badge soon">D-1 · 7/15</span>
+          <span class="warn">내일 마감 · 원고 준비돼 있을 때만</span>
+          <a class="link" href="https://www.contestkorea.com/sub/view.php?Txt_gbn=1&Txt_bcode=030110001&str_no=202606040014" target="_blank" rel="noopener">공고 보기 ↗</a>
+        </div>
+      </div>
+
+      <!-- 2 4.16 -->
+      <div class="item">
+        <div>
+          <span class="num">2</span> <h4>제8회 4·16재단 문화콘텐츠 공모전 (영상 시나리오)</h4>
+          <div class="host">4·16재단</div>
+          <div class="facts"><b>시나리오</b> 극영화/다큐/드라마 (70분 이상 기획안+대본) · <b>상금</b> 대상 4,000만원 · <b>자격</b> 제한 없음</div>
+          <div class="strat"><b>전략</b> 재난의 상업적 소비가 아닌 기억·연대·안전사회라는 재단 가치와의 진정성 있는 결합이 핵심. 실현 가능한 제작 기획력.</div>
+        </div>
+        <div class="right">
+          <span class="badge soon">D-3 · 7/17</span>
+          <a class="link" href="https://416foundation.org" target="_blank" rel="noopener">416foundation.org ↗</a>
+        </div>
+      </div>
+
+      <!-- 5 수주 -->
+      <div class="item">
+        <div>
+          <span class="num">5</span> <h4>제28회 수주문학상 (시 부문)</h4>
+          <div class="host">수주문학상운영위원회 · 부천문화재단</div>
+          <div class="facts"><b>시</b> 7~10편 · <b>상금</b> 대상 1,000만원+등단 · <b>자격</b> 제한 없음</div>
+          <div class="strat"><b>전략</b> 7~10편을 하나의 시적 세계관·톤으로 엮은 연작적 완결성. 개성 있는 자기 목소리를 일관되게.</div>
+        </div>
+        <div class="right">
+          <span class="badge soon">D-6 · 7/20</span>
+          <span class="warn">부문별 마감 상이 · 공식 재확인</span>
+          <a class="link" href="https://www.bcf.or.kr/" target="_blank" rel="noopener">부천문화재단 ↗</a>
+        </div>
+      </div>
+
+      <!-- 16 노벨라 -->
+      <div class="item">
+        <div>
+          <span class="num">16</span> <h4>2026 노벨라 앤솔로지 &lt;경계에 선 존재들&gt; <span class="badge open" style="font-size:11px;">추천</span></h4>
+          <div class="host">노벨라스튜디오</div>
+          <div class="facts"><b>단편소설</b> 원고지 80~100매 · <b>상금</b> 선인세 100만원+출간·영상화 · <b>자격</b> 누구나</div>
+          <div class="strat"><b>전략</b> 주최가 '영상화'를 명시 → 시각적 장면성과 강한 훅이 있는 K-오컬트(무속·귀·경계 공간)가 유리. 위키 '기기기담' 소재 차용 시 세계관 적합도 가점 가능.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-10 · 7/24</span>
+          <a class="link" href="https://novela.so/ko/contest" target="_blank" rel="noopener">novela.so ↗</a>
+        </div>
+      </div>
+
+      <!-- 17 직지 -->
+      <div class="item">
+        <div>
+          <span class="num">17</span> <h4>제4회 직지콘텐츠 공모전</h4>
+          <div class="host">청주고인쇄박물관 · 세계직지문화협회</div>
+          <div class="facts"><b>시(2편)/수필(12~14매)/영상/인스타툰</b> · <b>상금</b> 총 200만원 · <b>자격</b> 국민 누구나</div>
+          <div class="strat"><b>전략</b> '직지=세계 최초 금속활자' 자부심과 청주 지역성을 직접 담기. 경쟁 몰리는 시/수필보다 인스타툰·영상 부문이 응모자 적어 확률 유리.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-12 · 7/26</span>
+          <a class="link" href="https://jikji.gcontest.co.kr" target="_blank" rel="noopener">jikji.gcontest.co.kr ↗</a>
+        </div>
+      </div>
+
+      <!-- 18 부천 -->
+      <div class="item">
+        <div>
+          <span class="num">18</span> <h4>제23회 부천신인문학상</h4>
+          <div class="host">부천문화재단</div>
+          <div class="facts"><b>시/소설/아동문학/수필/극</b> · <b>상금</b> 부문별 200~300만원 (총 1,100만원) · <b>자격</b> 미등단자 + <span class="warn">부천 연고 필수</span></div>
+          <div class="strat"><b>전략</b> 관문은 '부천 연고 증빙'(거주·재학·근무·수료 등). 응모 적은 극·아동문학 부문이 경쟁 완화. 마감일 7/26~30 자료 불일치 → 공식 확인.</div>
+        </div>
+        <div class="right">
+          <span class="badge mid">D-12~16</span>
+          <span class="badge flag">부천 연고 조건</span>
+          <a class="link" href="https://www.bcf.or.kr/" target="_blank" rel="noopener">부천문화재단 ↗</a>
+        </div>
+      </div>
+
+      <!-- 3 MBC -->
+      <div class="item">
+        <div>
+          <span class="num">3</span> <h4>제33회 MBC 창작동화대상</h4>
+          <div class="host">MBC · 금성문화재단</div>
+          <div class="facts"><b>동화/그림책/짧은 시</b> · <b>상금</b> 대상 각 2,000만원 (총 4,300만원) · <b>자격</b> 제한 없음</div>
+          <div class="strat"><b>전략</b> 상투적 교훈담을 피한 신선한 상상력·캐릭터. 그림책은 텍스트-그림 콘셉트의 일관성.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-15 · 7/29</span>
+          <a class="link" href="https://www.kscf.co.kr/awards/onlineapp.php" target="_blank" rel="noopener">kscf.co.kr ↗</a>
+        </div>
+      </div>
+
+      <!-- 19 이순신 -->
+      <div class="item">
+        <div>
+          <span class="num">19</span> <h4>제10회 이순신 독후감 공모 <span class="warn" style="font-size:11px;">(전단 '제9회'는 오기)</span></h4>
+          <div class="host">(사)부산여해재단</div>
+          <div class="facts"><b>독후감</b> 지정도서 택1 (김종대 저) · <b>상금</b> 일반부 최우수 100만원 · <b>자격</b> 청소년/일반부(대학생 포함)</div>
+          <div class="strat"><b>전략</b> 지정도서가 김종대 전 헌법재판관 관점 → '리더십·공직윤리·자기희생'을 자기 삶의 경험과 연결하면 심사 코드에 부합.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-16 · 7/30</span>
+          <a class="link" href="http://www.bsyeohae.com" target="_blank" rel="noopener">bsyeohae.com ↗</a>
+        </div>
+      </div>
+
+      <!-- 20 중부 -->
+      <div class="item">
+        <div>
+          <span class="num">20</span> <h4>제4회 중부광역신문 시부 신인상</h4>
+          <div class="host">중부광역신문 · 청주시문학협회</div>
+          <div class="facts"><b>시</b> 3편 · <b>상금</b> 부문별 100만원 · <b>자격</b> 청년부(18~40)/장년부(41~) · 미등단자, AI 활용작 불가</div>
+          <div class="strat"><b>전략</b> 등단 통로형 신인상 → 완성도 높은 3편의 일관된 톤. 우편 등기 접수, 원고 첫 장에 인적사항 기재.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-16 · 7/30</span>
+          <a class="link" href="http://www.ttlnews.com/news/articleView.html?idxno=3102341" target="_blank" rel="noopener">공고 보기 ↗</a>
+        </div>
+      </div>
+
+      <!-- 21 정읍사 -->
+      <div class="item">
+        <div>
+          <span class="num">21</span> <h4>제14회 정읍사문학상 <span class="warn" style="font-size:11px;">(전단 '정음사'는 오기)</span></h4>
+          <div class="host">정읍문학회</div>
+          <div class="facts"><b>시/수필</b> · <b>상금</b> 대상 300만원 (총 450만원) · <b>자격</b> 제한 없음(재확인)</div>
+          <div class="strat"><b>전략</b> '정읍사(백제가요)' 배경의 지역 정체성을 담으면 유리. 편수·접수방법은 마감 임박이니 정읍문학회에 직접 확인.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-16 · 7/30</span>
+          <a class="link" href="https://ilovecontest.com/munhak/board/bbs/board.php?bo_table=contest_year1&wr_id=168" target="_blank" rel="noopener">공고 보기 ↗</a>
+        </div>
+      </div>
+
+      <!-- 1 문학동네 -->
+      <div class="item">
+        <div>
+          <span class="num">1</span> <h4>제32회 문학동네 소설상</h4>
+          <div class="host">문학동네</div>
+          <div class="facts"><b>장편소설</b> 원고지 500매 이상 + 시놉시스 · <b>상금</b> 5,000만원 · <b>자격</b> 제한 없음 · <b>우편 접수만</b></div>
+          <div class="strat"><b>전략</b> 국내 최고 권위 장편상. 분량 늘리기보다 하나의 강한 서사·문제의식을 밀도 있게 완결. 시놉시스에서 야심을 각인.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <span class="warn">장편 · 단기간 도전 부적합</span>
+          <a class="link" href="https://munhak.com/competition/?aid=02" target="_blank" rel="noopener">munhak.com ↗</a>
+        </div>
+      </div>
+
+      <!-- 4 서울예술단 -->
+      <div class="item">
+        <div>
+          <span class="num">4</span> <h4>제3회 서울예술단 공연 콘텐츠 공모전</h4>
+          <div class="host">서울예술단</div>
+          <div class="facts"><b>창작가무극 시나리오/대본/음악</b> · <b>지원금</b> 1,500만원 이상 · <b>자격</b> <span class="warn">무대공연 3편 이상 창작 경력</span></div>
+          <div class="strat"><b>전략</b> 완성 대본보다 무대화 가능성·장르 적합성과 한국문학 원천 활용의 참신성. 경력 요건 충족 포트폴리오 필수.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <span class="badge flag">창작 경력 조건</span>
+          <a class="link" href="https://www.spac.or.kr" target="_blank" rel="noopener">spac.or.kr ↗</a>
+        </div>
+      </div>
+
+      <!-- 7 과학소재 -->
+      <div class="item">
+        <div>
+          <span class="num">7</span> <h4>제13회 대한민국 과학소재 단편소설 공모전</h4>
+          <div class="host">대전광역시 · 대전정보문화산업진흥원 (브릿G/황금가지)</div>
+          <div class="facts"><b>SF 단편</b> 원고지 70~150매 · <b>상금</b> 대상 600만원 (총 2,000만원) · <b>자격</b> 국내 거주자 누구나</div>
+          <div class="strat"><b>전략</b> 순수 SF 문학성보다 '과학 소재'의 명확성과 IP 확장 가능성. 하나의 강렬한 과학적 전제를 단편에 압축, 영상·웹툰화가 상상되는 장면.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <a class="link" href="https://britg.kr/award/deajeon2026/" target="_blank" rel="noopener">britg.kr ↗</a>
+        </div>
+      </div>
+
+      <!-- 8 미당 -->
+      <div class="item">
+        <div>
+          <span class="num">8</span> <h4>제2회 미당학술상</h4>
+          <div class="host">동국대학교 미당연구소</div>
+          <div class="facts"><b>평론/논문</b> 서정주 작가론·작품론 · <b>상금</b> 각 500만원 (2명) · <b>자격</b> 제한 없음</div>
+          <div class="strat"><b>전략</b> 미당 텍스트에 밀착한 실증·해석 논문. 2024.1 이후 발표한 기존 논문 재활용도 가능. 친일 논란 등 쟁점의 균형 잡힌 접근도 강점.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <a class="link" href="https://midang.dongguk.edu/main" target="_blank" rel="noopener">midang.dongguk.edu ↗</a>
+        </div>
+      </div>
+
+      <!-- 9 협성 -->
+      <div class="item">
+        <div>
+          <span class="num">9</span> <h4>제15회 협성 독서왕 독후감 <span class="badge open" style="font-size:11px;">추천</span></h4>
+          <div class="host">협성문화재단 · 북두칠성도서관</div>
+          <div class="facts"><b>지정도서 독후감</b> · <b>상금</b> 최고 500만원대 (총 ~1억 1,150만원) · <b>자격</b> 초등~일반 부문별 개방</div>
+          <div class="strat"><b>전략</b> 자유도서 아님 → 반드시 목록 내 도서 선택. 줄거리 요약을 넘어 자기 경험·사회적 맥락과 연결한 통찰이 고득점.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <a class="link" href="http://www.hscf.co.kr/kor/sub6_01.php" target="_blank" rel="noopener">hscf.co.kr ↗</a>
+        </div>
+      </div>
+
+      <!-- 22 부산노동 -->
+      <div class="item">
+        <div>
+          <span class="num">22</span> <h4>제4회 감정·비정규 노동자 수기공모전</h4>
+          <div class="host">부산노동권익센터</div>
+          <div class="facts"><b>수기/에세이</b> A4 2장 이상 · <b>상금</b> 최우수 50만원 · <b>자격</b> <span class="warn">부산 거주·근로 시민(감정·비정규 노동 경험)</span></div>
+          <div class="strat"><b>전략</b> 자격이 좁아 경쟁률 낮음. 본인의 구체적 감정노동/비정규 현장 에피소드를 르포처럼 생생하게.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <span class="badge flag">부산 거주 노동자</span>
+          <a class="link" href="http://bslabors.or.kr" target="_blank" rel="noopener">bslabors.or.kr ↗</a>
+        </div>
+      </div>
+
+      <!-- 23 복숭아 -->
+      <div class="item">
+        <div>
+          <span class="num">23</span> <h4>제18회 복숭아 문학상</h4>
+          <div class="host">청미문학</div>
+          <div class="facts"><b>시/시조/수필</b> 편수 제한 없음 · <b>상금</b> 100만원 · <b>자격</b> 일반 공모(재확인)</div>
+          <div class="strat"><b>전략</b> 편수 제한 없음 → 완성도 높은 작품을 복수 출품해 당선 확률 높이기. 공식 채널이 약해 공고 원문(접수 방법) 정독 필요.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <span class="warn">공식 채널 약함 · 재확인</span>
+          <a class="link" href="https://ilovecontest.com" target="_blank" rel="noopener">공고 검색 ↗</a>
+        </div>
+      </div>
+
+      <!-- 24 예천 -->
+      <div class="item">
+        <div>
+          <span class="num">24</span> <h4>제8회 예천내성천문예현상공모전</h4>
+          <div class="host">예천군 · 예천낭독연구회</div>
+          <div class="facts"><b>시</b> 1인 3편 이상 · <b>상금</b> 대상 300만원 / 최우수 100만원 · <b>자격</b> 고등학생 이상 누구나(등단작가 포함)</div>
+          <div class="strat"><b>전략</b> '내성천·회룡포·삼강주막' 등 예천 장소성을 구체적 이미지로. 등단작가도 응모 가능해 지역 현장감으로 차별화.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <a class="link" href="https://www.ycg.kr" target="_blank" rel="noopener">ycg.kr ↗</a>
+        </div>
+      </div>
+
+      <!-- 25 공주 -->
+      <div class="item">
+        <div>
+          <span class="num">25</span> <h4>독서기반 '나의 일상이야기' 공모전</h4>
+          <div class="host">공주시</div>
+          <div class="facts"><b>수필/시/네컷만화</b> · <b>상금</b> 문화상품권 20만원 (총 42점 수상) · <b>자격</b> 전국 초·중·고·성인</div>
+          <div class="strat"><b>전략</b> 상금은 작지만 수상 인원 42명으로 입상 확률 높음. '읽은 책 → 내 일상의 변화'를 구체적으로 연결.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <a class="link" href="https://www.gongju.go.kr" target="_blank" rel="noopener">공주시 도서관 ↗</a>
+        </div>
+      </div>
+
+      <!-- 26 저작권 -->
+      <div class="item">
+        <div>
+          <span class="num">26</span> <h4>2026 저작권 인식제고 글 공모전 <span class="badge open" style="font-size:11px;">추천</span></h4>
+          <div class="host">문화체육관광부 · 한국저작권위원회</div>
+          <div class="facts"><b>시(20행 이내)/산문(1,000~3,600자)</b> · <b>상금</b> 대상 국무총리상+200만원 (총 1,250만원·50편) · <b>자격</b> 만 6세 이상 누구나</div>
+          <div class="strat"><b>전략</b> AI 시대 '인간 창작의 가치'가 심사 화두. 저작권을 추상적 구호가 아닌 개인 창작/표절 경험담으로 풀면 설득력↑.</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <a class="link" href="https://www.copyrightcontest.com" target="_blank" rel="noopener">copyrightcontest.com ↗</a>
+        </div>
+      </div>
+
+      <!-- 27 김유정 -->
+      <div class="item">
+        <div>
+          <span class="num">27</span> <h4>제8회 김유정 청소년문학상</h4>
+          <div class="host">(사)김유정기념사업회</div>
+          <div class="facts"><b>시/산문</b> · <b>상금</b> 대상 50만원 · <b>자격</b> <span class="warn">전국 중·고등학생(청소년)</span></div>
+          <div class="strat"><b>전략</b> 청소년 전용. 김유정 특유의 향토적·해학적 감성 소재가 주최 정체성과 부합. (성인은 지원 불가)</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <span class="badge flag">청소년 전용</span>
+          <a class="link" href="https://www.yjkim.co.kr" target="_blank" rel="noopener">yjkim.co.kr ↗</a>
+        </div>
+      </div>
+
+      <!-- 28 웹소설 -->
+      <div class="item">
+        <div>
+          <span class="num">28</span> <h4>제2회 전국 고교 웹소설 슈퍼루키전</h4>
+          <div class="host">한국영상대학교 웹소설전공</div>
+          <div class="facts"><b>웹소설</b> (장르 자유) · <b>상금</b> 슈퍼루키상 150만원 (총 350만원) · <b>자격</b> <span class="warn">고등학생/2008~2010년생</span></div>
+          <div class="strat"><b>전략</b> 첫 5화 '초반 후킹'과 장르 클리셰 활용도가 핵심. (성인은 지원 불가)</div>
+        </div>
+        <div class="right">
+          <span class="badge open">D-17 · 7/31</span>
+          <span class="badge flag">고교생 전용</span>
+          <a class="link" href="https://linkareer.com/activity/325520" target="_blank" rel="noopener">공고 보기 ↗</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CLOSED LIST -->
+    <div class="section-head" id="closed">
+      <h2>⛔ 이미 마감 (참고용 · 내년 대비)</h2>
+      <p>기준일(7/14) 이전에 마감된 공모전이에요. 다음 회차를 노린다면 성격만 참고하세요.</p>
+    </div>
+    <div class="list">
+
+      <div class="item closed-item">
+        <div>
+          <span class="num">12</span> <h4>제34회 전태일문학상 (에세이)</h4>
+          <div class="host">전태일재단 · 인권/노동 주제 · 최우수 200만원</div>
+          <div class="strat"><b>다음 기회에</b> '전태일 정신'과 맞닿은 당사자성 있는 구체적 경험이 관건. 목적 있는 글쓰기에 잘 맞아 내년 강력 추천.</div>
+        </div>
+        <div class="right"><span class="badge closed">마감 7/10</span><a class="link" href="https://chuntaeil.org/" target="_blank" rel="noopener">chuntaeil.org ↗</a></div>
+      </div>
+
+      <div class="item closed-item">
+        <div>
+          <span class="num">6</span> <h4>2026 박인환상 (학술부문)</h4>
+          <div class="host">박인환문학관 · 문학평론/영화평론 · 최대 1,500만원</div>
+          <div class="strat"><b>다음 기회에</b> 박인환 텍스트의 독창적 해석 또는 영화평론의 학술성+비평 문장력 균형.</div>
+        </div>
+        <div class="right"><span class="badge closed">마감 7/13</span><a class="link" href="https://www.parkinhwan.or.kr" target="_blank" rel="noopener">parkinhwan.or.kr ↗</a></div>
+      </div>
+
+      <div class="item closed-item">
+        <div>
+          <span class="num">14</span> <h4>제41회 전국향토문화공모전</h4>
+          <div class="host">한국문화원연합회 · 논문/콘텐츠/수기 · 최고 500만원</div>
+          <div class="strat"><b>다음 기회에</b> 특정 지역의 잘 알려지지 않은 인물·설화를 1차 자료로 발굴한 향토 논문이 강함. (2026 일정은 공식 재확인)</div>
+        </div>
+        <div class="right"><span class="badge closed">마감 7/12</span><a class="link" href="https://www.kccf.or.kr/" target="_blank" rel="noopener">kccf.or.kr ↗</a></div>
+      </div>
+
+      <div class="item closed-item">
+        <div>
+          <span class="num">13</span> <h4>제18회 매운당 이조년 문학 공모전</h4>
+          <div class="host">고령군 · 고령문화원 · 운문/산문 · 대상 300만원</div>
+          <div class="strat"><b>다음 기회에</b> 이조년 '다정가'의 정서(충절·다정·절제미)를 은근히 녹인 작품이 유리.</div>
+        </div>
+        <div class="right"><span class="badge closed">마감 7/10</span><a class="link" href="http://culture.goryeong.go.kr" target="_blank" rel="noopener">고령문화원 ↗</a></div>
+      </div>
+
+      <div class="item closed-item">
+        <div>
+          <span class="num">11</span> <h4>제43회 농민신문 영농·생활 수기</h4>
+          <div class="host">농민신문사 · 수기 · 최우수 200만원 · 농촌주민 대상</div>
+          <div class="strat"><b>다음 기회에</b> 구체적 사건·수치·계절 흐름이 담긴 '한 해의 실제 이야기'. 진정성·사실성이 최우선.</div>
+        </div>
+        <div class="right"><span class="badge closed">마감 7/1</span><a class="link" href="https://www.nongmin.com" target="_blank" rel="noopener">nongmin.com ↗</a></div>
+      </div>
+
+      <div class="item closed-item">
+        <div>
+          <span class="num">10</span> <h4>제1회 리틀뮤즈 작사 공모전</h4>
+          <div class="host">뮤즈오디세이 엔터 · 작사 · 대상 100만원 · 8~18세 대상</div>
+          <div class="strat"><b>다음 기회에</b> 음원화 가능성이 핵심 → 명확한 후렴(훅)과 멜로디에 얹힐 리듬감.</div>
+        </div>
+        <div class="right"><span class="badge closed">마감 7/1</span><a class="link" href="https://ilovecontest.com" target="_blank" rel="noopener">공고 검색 ↗</a></div>
+      </div>
+
+    </div>
+
+    <footer>
+      <b>참고 사항</b><br>
+      · 원본 출처: 인스타그램 <b>@deung_dan</b>(등단닷컴) '2026년 7월 공모전 모음' (게시 6/15).<br>
+      · 각 항목은 공식 홈페이지·주최측 공고·보도자료로 교차 확인했으나, 일부 사이트(문학동네·부천문화재단 등)는 자동 접근이 막혀 있어 <b>마감 시각·접수 방식·분량은 제출 전 공식 페이지에서 반드시 재확인</b>하세요.<br>
+      · 전단 표기 정정 — #19는 '제9회'가 아니라 <b>제10회(2026)</b>, #21은 '정음사문학상'이 아니라 <b>정읍사문학상(정읍문학회)</b>.<br>
+      · '추천 TOP 3'는 성인·단기간·상금·목적 적합성 기준의 개인 제안일 뿐, 최종 선택은 단청님의 관심사와 원고 준비 상황에 맞추세요.<br>
+      · 정리 기준일 2026. 7. 14.
+    </footer>
+  </div>
+</body>
+</html>
